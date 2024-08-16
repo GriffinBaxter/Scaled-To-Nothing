@@ -1,50 +1,46 @@
-[gd_scene load_steps=8 format=3 uid="uid://2n7xtdyiry4g"]
+[gd_scene load_steps=8 format=4 uid="uid://2n7xtdyiry4g"]
 
 [ext_resource type="Script" path="res://Scripts/player.gd" id="1_fhvsp"]
+[ext_resource type="Texture2D" uid="uid://f75gnjjahelx" path="res://Images/Tilemap.png" id="1_nybsv"]
+[ext_resource type="Texture2D" uid="uid://r3pyjl3arkfb" path="res://Images/Player.png" id="3_4tu8w"]
+[ext_resource type="FontFile" uid="uid://b5onpbcedntbx" path="res://Font/Silkscreen/slkscr.ttf" id="4_f43fv"]
 
-[sub_resource type="Gradient" id="Gradient_thi01"]
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ucfa0"]
+texture = ExtResource("1_nybsv")
+texture_region_size = Vector2i(8, 8)
+0:0/0 = 0
+1:0/0 = 0
+1:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-4, -4, 4, -4, 4, 4, -4, 4)
 
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_qkwrw"]
-gradient = SubResource("Gradient_thi01")
+[sub_resource type="TileSet" id="TileSet_8iq43"]
+tile_size = Vector2i(8, 8)
+physics_layer_0/collision_layer = 1
+sources/1 = SubResource("TileSetAtlasSource_ucfa0")
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_f8w3p"]
-radius = 40.0
-
-[sub_resource type="Gradient" id="Gradient_2jnlh"]
-colors = PackedColorArray(0.00497528, 0.609604, 0.633447, 1, 0, 1, 0, 1)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_kc758"]
-gradient = SubResource("Gradient_2jnlh")
-width = 235
-height = 180
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_wfa1d"]
-size = Vector2(235, 180)
+radius = 12.0
 
 [node name="Main" type="Node"]
 
 [node name="Node2D" type="Node2D" parent="."]
 
+[node name="TileMapLayer" type="TileMapLayer" parent="Node2D"]
+scale = Vector2(4, 4)
+tile_map_data = PackedByteArray("AAD/////AQAAAAAAAAD//wAAAQAAAAAAAAAAAAAAAQAAAAAAAAAAAP//AQAAAAAAAAABAP//AQAAAAAAAAABAAAAAQAAAAAAAAD+////AQAAAAAAAAD+/wAAAQAAAAAAAAD+//7/AQAAAAAAAAD///7/AQAAAAAAAAAAAP7/AQAAAAAAAAABAP7/AQAAAAAAAAACAP7/AQAAAAAAAAACAP//AQAAAAAAAAACAAAAAQAAAAAAAAACAAEAAQAAAAAAAAABAAEAAQAAAAAAAAAAAAEAAQAAAAAAAAD//wEAAQAAAAAAAAD+/wEAAQAAAAAAAAD9/wEAAQAAAAAAAAD9/wAAAQAAAAAAAAD9////AQAAAAAAAAD9//7/AQAAAAAAAAD9//3/AQAAAAAAAAD+//3/AQAAAAAAAAD///3/AQAAAAAAAAAAAP3/AQAAAAAAAAADAP7/AQAAAAAAAAACAP3/AQAAAAAAAAABAP3/AQAAAAAAAAADAP3/AQAAAAAAAAADAP//AQAAAAAAAAADAAAAAQAAAAAAAAADAAEAAQAAAAAAAAD8//3/AQAAAAAAAAD8//7/AQAAAAAAAAD8////AQAAAAAAAAD8/wAAAQAAAAAAAAD8/wEAAQAAAAAAAAD8/wIAAQAAAAAAAAD9/wIAAQAAAAAAAAD+/wIAAQAAAAAAAAD//wIAAQAAAAAAAAAAAAIAAQAAAAAAAAABAAIAAQAAAAAAAAACAAIAAQAAAAAAAAADAAIAAQAAAAAAAAD7//3/AQABAAAAAAD7//7/AQABAAAAAAD7////AQABAAAAAAD7/wAAAQABAAAAAAD7//z/AQABAAAAAAD8//z/AQABAAAAAAD9//z/AQABAAAAAAD+//z/AQABAAAAAAD///z/AQABAAAAAAAAAPz/AQABAAAAAAABAPz/AQABAAAAAAACAPz/AQABAAAAAAADAPz/AQABAAAAAAAEAPz/AQABAAAAAAAEAP3/AQABAAAAAAAEAP7/AQABAAAAAAAEAP//AQABAAAAAAAEAAAAAQABAAAAAAAEAAEAAQABAAAAAAAEAAIAAQABAAAAAAAEAAMAAQABAAAAAAADAAMAAQABAAAAAAACAAMAAQABAAAAAAABAAMAAQABAAAAAAAAAAMAAQABAAAAAAD//wMAAQABAAAAAAD+/wMAAQABAAAAAAD9/wMAAQABAAAAAAD8/wMAAQABAAAAAAD7/wMAAQABAAAAAAD7/wIAAQABAAAAAAD7/wEAAQABAAAAAAA=")
+tile_set = SubResource("TileSet_8iq43")
+
 [node name="Player" type="CharacterBody2D" parent="Node2D"]
 script = ExtResource("1_fhvsp")
 
 [node name="Sprite2D" type="Sprite2D" parent="Node2D/Player"]
-texture = SubResource("GradientTexture2D_qkwrw")
+scale = Vector2(4, 4)
+texture = ExtResource("3_4tu8w")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Node2D/Player"]
 shape = SubResource("CircleShape2D_f8w3p")
 
 [node name="Camera2D" type="Camera2D" parent="Node2D/Player"]
-
-[node name="StaticBody2D" type="StaticBody2D" parent="Node2D"]
-
-[node name="Sprite2D" type="Sprite2D" parent="Node2D/StaticBody2D"]
-position = Vector2(375, 0)
-texture = SubResource("GradientTexture2D_kc758")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Node2D/StaticBody2D"]
-position = Vector2(375, 0)
-shape = SubResource("RectangleShape2D_wfa1d")
+zoom = Vector2(2, 2)
 
 [node name="UI" type="Control" parent="."]
 layout_mode = 3
@@ -56,15 +52,14 @@ grow_vertical = 2
 
 [node name="MarginContainer" type="MarginContainer" parent="UI"]
 layout_mode = 0
-offset_left = -50.0
-offset_top = -150.0
-offset_right = 50.0
-offset_bottom = -100.0
-
-[node name="ColorRect" type="ColorRect" parent="UI/MarginContainer"]
-layout_mode = 2
-color = Color(0.572669, 1.1792e-06, 3.36915e-07, 1)
+offset_left = -60.0
+offset_top = -120.0
+offset_right = 61.0
+offset_bottom = -103.0
 
 [node name="Label" type="Label" parent="UI/MarginContainer"]
 layout_mode = 2
+theme_override_fonts/font = ExtResource("4_f43fv")
 text = "Testing Text"
+horizontal_alignment = 1
+vertical_alignment = 1
