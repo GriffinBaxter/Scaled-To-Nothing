@@ -1,0 +1,70 @@
+[gd_scene load_steps=8 format=3 uid="uid://2n7xtdyiry4g"]
+
+[ext_resource type="Script" path="res://Scripts/player.gd" id="1_fhvsp"]
+
+[sub_resource type="Gradient" id="Gradient_thi01"]
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_qkwrw"]
+gradient = SubResource("Gradient_thi01")
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_f8w3p"]
+radius = 40.0
+
+[sub_resource type="Gradient" id="Gradient_2jnlh"]
+colors = PackedColorArray(0.00497528, 0.609604, 0.633447, 1, 0, 1, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_kc758"]
+gradient = SubResource("Gradient_2jnlh")
+width = 235
+height = 180
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wfa1d"]
+size = Vector2(235, 180)
+
+[node name="Main" type="Node"]
+
+[node name="Node2D" type="Node2D" parent="."]
+
+[node name="Player" type="CharacterBody2D" parent="Node2D"]
+script = ExtResource("1_fhvsp")
+
+[node name="Sprite2D" type="Sprite2D" parent="Node2D/Player"]
+texture = SubResource("GradientTexture2D_qkwrw")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Node2D/Player"]
+shape = SubResource("CircleShape2D_f8w3p")
+
+[node name="Camera2D" type="Camera2D" parent="Node2D/Player"]
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="Node2D/StaticBody2D"]
+position = Vector2(375, 0)
+texture = SubResource("GradientTexture2D_kc758")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Node2D/StaticBody2D"]
+position = Vector2(375, 0)
+shape = SubResource("RectangleShape2D_wfa1d")
+
+[node name="UI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="UI"]
+layout_mode = 0
+offset_left = -50.0
+offset_top = -150.0
+offset_right = 50.0
+offset_bottom = -100.0
+
+[node name="ColorRect" type="ColorRect" parent="UI/MarginContainer"]
+layout_mode = 2
+color = Color(0.572669, 1.1792e-06, 3.36915e-07, 1)
+
+[node name="Label" type="Label" parent="UI/MarginContainer"]
+layout_mode = 2
+text = "Testing Text"
