@@ -1,9 +1,10 @@
 extends Area2D
 
-enum CornerPos { NONE, TOP_LEFT, TOP_RIGHT, BOTTOM_LEFT, BOTTOM_RIGHT }
+enum CornerPos { NONE, TOP_LEFT, TOP_RIGHT, BOTTOM_LEFT, BOTTOM_RIGHT, MIDDLE }
 
 const SCALE_SPEED = 0.1
 const POSITION_OFFSET = 3.25
+const CORNER_SELECT_OFFSET = 12.0
 
 @export_range(0.1, 1., 0.1) var min_scale = 0.5
 @export_range(1., 3., 0.1) var max_scale = 2.
@@ -23,6 +24,13 @@ func _draw() -> void:
 	const ACTIVE_COLOR = Color(1, 1, 1, 1)
 	var color = Color(1, 1, 1, 0.5) if mouse_entered_object else Color(1, 1, 1, 0.1)
 	draw_set_transform(Vector2(-position.x, -position.y))
+
+	# middle
+	var middle_rect = Rect2(
+		Vector2(global_position.x - SQUARE_SIZE.x / 2, global_position.y - SQUARE_SIZE.y / 2),
+		SQUARE_SIZE
+	)
+	draw_rect(middle_rect, ACTIVE_COLOR if selected_corner == CornerPos.MIDDLE else color)
 
 	# top left
 	var top_left_rect = Rect2(
@@ -60,10 +68,19 @@ func _input(event: InputEvent) -> void:
 		var to_move_position = Vector2(0, 0)
 		var global_mouse_position = get_global_mouse_position()
 
-		# top left
+		# middle
 		if (
-			(global_mouse_position - global_position).x < 0
-			and (global_mouse_position - global_position).y < 0
+			-CORNER_SELECT_OFFSET <= (global_mouse_position - global_position).x
+			and (global_mouse_position - global_position).x <= CORNER_SELECT_OFFSET
+			and -CORNER_SELECT_OFFSET <= (global_mouse_position - global_position).y
+			and (global_mouse_position - global_position).y <= CORNER_SELECT_OFFSET
+		):
+			update_corner(CornerPos.MIDDLE)
+
+		# top left
+		elif (
+			(global_mouse_position - global_position).x < -CORNER_SELECT_OFFSET
+			and (global_mouse_position - global_position).y < -CORNER_SELECT_OFFSET
 		):
 			update_corner(CornerPos.TOP_LEFT)
 			scale_amount *= -event.relative.x - event.relative.y
@@ -71,8 +88,8 @@ func _input(event: InputEvent) -> void:
 
 		# top right
 		elif (
-			(global_mouse_position - global_position).x > 0
-			and (global_mouse_position - global_position).y < 0
+			(global_mouse_position - global_position).x > CORNER_SELECT_OFFSET
+			and (global_mouse_position - global_position).y < -CORNER_SELECT_OFFSET
 		):
 			update_corner(CornerPos.TOP_RIGHT)
 			scale_amount *= event.relative.x - event.relative.y
@@ -80,8 +97,8 @@ func _input(event: InputEvent) -> void:
 
 		# bottom left
 		elif (
-			(global_mouse_position - global_position).x < 0
-			and (global_mouse_position - global_position).y > 0
+			(global_mouse_position - global_position).x < -CORNER_SELECT_OFFSET
+			and (global_mouse_position - global_position).y > CORNER_SELECT_OFFSET
 		):
 			update_corner(CornerPos.BOTTOM_LEFT)
 			scale_amount *= -event.relative.x + event.relative.y
@@ -89,8 +106,8 @@ func _input(event: InputEvent) -> void:
 
 		# bottom right
 		elif (
-			(global_mouse_position - global_position).x > 0
-			and (global_mouse_position - global_position).y > 0
+			(global_mouse_position - global_position).x > CORNER_SELECT_OFFSET
+			and (global_mouse_position - global_position).y > CORNER_SELECT_OFFSET
 		):
 			update_corner(CornerPos.BOTTOM_RIGHT)
 			scale_amount *= event.relative.x + event.relative.y
@@ -102,7 +119,9 @@ func _input(event: InputEvent) -> void:
 
 		if Input.is_action_pressed("left_mouse"):
 			var to_scale = Vector2(scale_amount, scale_amount)
-			if scale + to_scale > original_scale * max_scale:
+			if selected_corner == CornerPos.MIDDLE:
+				position = global_mouse_position
+			elif scale + to_scale > original_scale * max_scale:
 				scale = original_scale * max_scale
 			elif scale + to_scale < original_scale * min_scale:
 				scale = original_scale * min_scale

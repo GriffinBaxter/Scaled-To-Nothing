@@ -60,6 +60,7 @@ scale = Vector2(4, 4)
 script = ExtResource("1_3c75b")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+z_index = -1
 material = SubResource("ShaderMaterial_fqu1x")
 texture = ExtResource("1_4s427")
 region_enabled = true
