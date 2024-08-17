@@ -1,0 +1,69 @@
+[gd_scene load_steps=8 format=3 uid="uid://doelxlcydxmcc"]
+
+[ext_resource type="Texture2D" uid="uid://dh24hvnaj6whw" path="res://Images/Objects.png" id="1_4s427"]
+[ext_resource type="Shader" path="res://Shaders/outline.gdshader" id="1_pr8ve"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_fqu1x"]
+shader = ExtResource("1_pr8ve")
+shader_parameter/thickness = 0.125
+shader_parameter/alpha = 0.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fjv4m"]
+size = Vector2(6, 7)
+
+[sub_resource type="Animation" id="Animation_56fxa"]
+resource_name = "outline_fade"
+length = 5.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:material:shader_parameter/alpha")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(2, 2.5, 3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.5, 1.0, 0.5]
+}
+
+[sub_resource type="Animation" id="Animation_ghi4i"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:material:shader_parameter/alpha")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_y5ko8"]
+_data = {
+"RESET": SubResource("Animation_ghi4i"),
+"outline_fade": SubResource("Animation_56fxa")
+}
+
+[node name="Plant" type="AnimatableBody2D"]
+position = Vector2(64, -32)
+scale = Vector2(4, 4)
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_fqu1x")
+texture = ExtResource("1_4s427")
+region_enabled = true
+region_rect = Rect2(0, 9, 8, 9)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_fjv4m")
+
+[node name="OutlineFadeAnimation" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_y5ko8")
+}
+autoplay = "outline_fade"

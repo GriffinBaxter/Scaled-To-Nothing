@@ -3,8 +3,9 @@
 [ext_resource type="Script" path="res://Scripts/player.gd" id="1_fhvsp"]
 [ext_resource type="Texture2D" uid="uid://f75gnjjahelx" path="res://Images/Tilemap.png" id="1_nybsv"]
 [ext_resource type="Texture2D" uid="uid://r3pyjl3arkfb" path="res://Images/Player.png" id="3_4tu8w"]
-[ext_resource type="Texture2D" uid="uid://dh24hvnaj6whw" path="res://Images/Objects.png" id="4_cgqs5"]
 [ext_resource type="FontFile" uid="uid://b5onpbcedntbx" path="res://Font/Silkscreen/slkscr.ttf" id="4_f43fv"]
+[ext_resource type="PackedScene" uid="uid://bgwxg6te5hgl0" path="res://Scenes/key.tscn" id="4_wifqe"]
+[ext_resource type="PackedScene" uid="uid://doelxlcydxmcc" path="res://Scenes/plant.tscn" id="5_e7868"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ucfa0"]
 texture = ExtResource("1_nybsv")
@@ -34,9 +35,6 @@ sources/1 = SubResource("TileSetAtlasSource_ucfa0")
 [sub_resource type="CircleShape2D" id="CircleShape2D_f8w3p"]
 radius = 12.0
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_fjv4m"]
-size = Vector2(8, 3)
-
 [node name="Main" type="Node"]
 
 [node name="Node2D" type="Node2D" parent="."]
@@ -59,17 +57,11 @@ shape = SubResource("CircleShape2D_f8w3p")
 [node name="Camera2D" type="Camera2D" parent="Node2D/Player"]
 zoom = Vector2(2, 2)
 
-[node name="Key" type="AnimatableBody2D" parent="Node2D"]
-position = Vector2(64, -32)
-scale = Vector2(4, 4)
+[node name="Key" parent="Node2D" instance=ExtResource("4_wifqe")]
 
-[node name="Sprite2D" type="Sprite2D" parent="Node2D/Key"]
-texture = ExtResource("4_cgqs5")
-region_enabled = true
-region_rect = Rect2(0, 0, 8, 3)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Node2D/Key"]
-shape = SubResource("RectangleShape2D_fjv4m")
+[node name="Plant" parent="Node2D" instance=ExtResource("5_e7868")]
+position = Vector2(-96, 56)
+scale = Vector2(8, 8)
 
 [node name="UI" type="Control" parent="."]
 layout_mode = 3
