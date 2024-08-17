@@ -14,6 +14,7 @@ const CORNER_SELECT_OFFSET = 12.0
 var mouse_entered_object = false
 var original_scale = Vector2(1, 1)
 var selected_corner: CornerPos = CornerPos.NONE
+var current_scale_amount = 0
 
 
 func _ready() -> void:
@@ -72,8 +73,8 @@ func _input(event: InputEvent) -> void:
 
 		# middle
 		if (
-			can_position and
-			-CORNER_SELECT_OFFSET <= (global_mouse_position - global_position).x
+			can_position
+			and -CORNER_SELECT_OFFSET <= (global_mouse_position - global_position).x
 			and (global_mouse_position - global_position).x <= CORNER_SELECT_OFFSET
 			and -CORNER_SELECT_OFFSET <= (global_mouse_position - global_position).y
 			and (global_mouse_position - global_position).y <= CORNER_SELECT_OFFSET
@@ -86,7 +87,7 @@ func _input(event: InputEvent) -> void:
 			and (global_mouse_position - global_position).y < -CORNER_SELECT_OFFSET
 		):
 			update_corner(CornerPos.TOP_LEFT)
-			scale_amount *= -event.relative.x - event.relative.y
+			current_scale_amount = scale_amount * (-event.relative.x - event.relative.y)
 
 		# top right
 		elif (
@@ -94,7 +95,7 @@ func _input(event: InputEvent) -> void:
 			and (global_mouse_position - global_position).y < -CORNER_SELECT_OFFSET
 		):
 			update_corner(CornerPos.TOP_RIGHT)
-			scale_amount *= event.relative.x - event.relative.y
+			current_scale_amount = scale_amount * (event.relative.x - event.relative.y)
 
 		# bottom left
 		elif (
@@ -102,7 +103,7 @@ func _input(event: InputEvent) -> void:
 			and (global_mouse_position - global_position).y > CORNER_SELECT_OFFSET
 		):
 			update_corner(CornerPos.BOTTOM_LEFT)
-			scale_amount *= -event.relative.x + event.relative.y
+			current_scale_amount = scale_amount * (-event.relative.x + event.relative.y)
 
 		# bottom right
 		elif (
@@ -110,22 +111,25 @@ func _input(event: InputEvent) -> void:
 			and (global_mouse_position - global_position).y > CORNER_SELECT_OFFSET
 		):
 			update_corner(CornerPos.BOTTOM_RIGHT)
-			scale_amount *= event.relative.x + event.relative.y
+			current_scale_amount = scale_amount * (event.relative.x + event.relative.y)
 
 		else:
 			selected_corner = CornerPos.NONE
-			scale_amount *= 0
+			current_scale_amount = 0
 
-		if Input.is_action_pressed("left_mouse"):
-			var to_scale = Vector2(scale_amount, scale_amount)
-			if selected_corner == CornerPos.MIDDLE:
-				position = global_mouse_position
-			elif scale + to_scale > original_scale * max_scale:
-				scale = original_scale * max_scale
-			elif scale + to_scale < original_scale * min_scale:
-				scale = original_scale * min_scale
-			else:
-				scale += to_scale
+
+func _process(_delta: float) -> void:
+	if mouse_entered_object and Input.is_action_pressed("left_mouse"):
+		var global_mouse_position = get_global_mouse_position()
+		var to_scale = Vector2(current_scale_amount, current_scale_amount)
+		if selected_corner == CornerPos.MIDDLE:
+			position = global_mouse_position
+		elif scale + to_scale > original_scale * max_scale:
+			scale = original_scale * max_scale
+		elif scale + to_scale < original_scale * min_scale:
+			scale = original_scale * min_scale
+		else:
+			scale += to_scale
 
 
 func update_corner(corner: CornerPos) -> void:
