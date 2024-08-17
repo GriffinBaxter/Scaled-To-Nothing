@@ -10,7 +10,7 @@ shader_parameter/thickness = 0.25
 shader_parameter/alpha = 0.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fjv4m"]
-size = Vector2(14, 8)
+size = Vector2(12, 12)
 
 [sub_resource type="Animation" id="Animation_56fxa"]
 resource_name = "outline_fade"
@@ -61,7 +61,7 @@ texture = ExtResource("1_v5l44")
 region_enabled = true
 region_rect = Rect2(0, 0, 10, 5)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="MouseCollision" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_fjv4m")
 
 [node name="OutlineFadeAnimation" type="AnimationPlayer" parent="."]

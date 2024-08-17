@@ -1,7 +1,8 @@
-[gd_scene load_steps=10 format=4 uid="uid://2n7xtdyiry4g"]
+[gd_scene load_steps=12 format=4 uid="uid://2n7xtdyiry4g"]
 
 [ext_resource type="Script" path="res://Scripts/player.gd" id="1_fhvsp"]
 [ext_resource type="Texture2D" uid="uid://f75gnjjahelx" path="res://Images/Tilemap.png" id="1_nybsv"]
+[ext_resource type="Script" path="res://Scenes/main.gd" id="1_p1pii"]
 [ext_resource type="Texture2D" uid="uid://r3pyjl3arkfb" path="res://Images/Player.png" id="3_4tu8w"]
 [ext_resource type="FontFile" uid="uid://b5onpbcedntbx" path="res://Font/Silkscreen/slkscr.ttf" id="4_f43fv"]
 [ext_resource type="PackedScene" uid="uid://bgwxg6te5hgl0" path="res://Scenes/key.tscn" id="4_wifqe"]
@@ -35,7 +36,11 @@ sources/1 = SubResource("TileSetAtlasSource_ucfa0")
 [sub_resource type="CircleShape2D" id="CircleShape2D_f8w3p"]
 radius = 12.0
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_qo61c"]
+radius = 9.68
+
 [node name="Main" type="Node"]
+script = ExtResource("1_p1pii")
 
 [node name="Node2D" type="Node2D" parent="."]
 
@@ -62,6 +67,13 @@ zoom = Vector2(2, 2)
 [node name="Plant" parent="Node2D" instance=ExtResource("5_e7868")]
 position = Vector2(-96, 56)
 scale = Vector2(8, 8)
+
+[node name="LockedDoorArea2D" type="Area2D" parent="Node2D"]
+position = Vector2(-48.975, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Node2D/LockedDoorArea2D"]
+position = Vector2(-98.025, 49)
+shape = SubResource("CircleShape2D_qo61c")
 
 [node name="UI" type="Control" parent="."]
 layout_mode = 3

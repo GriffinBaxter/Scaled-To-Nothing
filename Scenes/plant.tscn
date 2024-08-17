@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://doelxlcydxmcc"]
+[gd_scene load_steps=10 format=3 uid="uid://doelxlcydxmcc"]
 
 [ext_resource type="Script" path="res://Scripts/object_scaling.gd" id="1_3c75b"]
 [ext_resource type="Texture2D" uid="uid://dh24hvnaj6whw" path="res://Images/Objects.png" id="1_4s427"]
@@ -10,7 +10,7 @@ shader_parameter/thickness = 0.125
 shader_parameter/alpha = 0.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fjv4m"]
-size = Vector2(10, 11)
+size = Vector2(12, 12)
 
 [sub_resource type="Animation" id="Animation_56fxa"]
 resource_name = "outline_fade"
@@ -50,6 +50,9 @@ _data = {
 "outline_fade": SubResource("Animation_56fxa")
 }
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_doeli"]
+radius = 4.0
+
 [node name="Plant" type="Area2D"]
 position = Vector2(64, -32)
 scale = Vector2(4, 4)
@@ -61,7 +64,7 @@ texture = ExtResource("1_4s427")
 region_enabled = true
 region_rect = Rect2(0, 9, 8, 9)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="MouseCollision" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_fjv4m")
 
 [node name="OutlineFadeAnimation" type="AnimationPlayer" parent="."]
@@ -69,6 +72,11 @@ libraries = {
 "": SubResource("AnimationLibrary_y5ko8")
 }
 autoplay = "outline_fade"
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("CircleShape2D_doeli")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="body_exited" from="." to="." method="_on_body_exited"]
