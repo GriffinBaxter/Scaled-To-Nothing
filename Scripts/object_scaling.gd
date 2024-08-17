@@ -6,7 +6,7 @@ const SCALE_SPEED = 0.1
 const POSITION_OFFSET = 3.25
 
 var mouse_entered_object = false
-var body_entered_object = false
+var body_entered_object = false  # TODO: not being used
 var original_scale = Vector2(1, 1)
 var selected_corner: CornerPos = CornerPos.NONE
 
@@ -104,7 +104,7 @@ func _input(event: InputEvent) -> void:
 				scale = original_scale * 2
 			elif scale + to_scale < original_scale * 0.5:
 				scale = original_scale * 0.5
-			elif scale_amount < 0 or (scale_amount >= 0 and not body_entered_object):
+			else:
 				scale += to_scale
 				position += to_move_position * scale_amount
 

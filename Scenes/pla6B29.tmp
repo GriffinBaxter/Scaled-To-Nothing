@@ -10,7 +10,7 @@ shader_parameter/thickness = 0.125
 shader_parameter/alpha = 0.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fjv4m"]
-size = Vector2(10, 11)
+size = Vector2(6, 7)
 
 [sub_resource type="Animation" id="Animation_56fxa"]
 resource_name = "outline_fade"
