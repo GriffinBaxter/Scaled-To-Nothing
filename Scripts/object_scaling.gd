@@ -6,6 +6,8 @@ const SCALE_SPEED = 0.01
 const POSITION_OFFSET = 3.25
 const CORNER_SELECT_OFFSET = 12.0
 
+@export var can_position = true
+
 @export_range(0.1, 1., 0.1) var min_scale = 0.5
 @export_range(1., 3., 0.1) var max_scale = 2.
 
@@ -26,11 +28,12 @@ func _draw() -> void:
 	draw_set_transform(Vector2(-position.x, -position.y))
 
 	# middle
-	var middle_rect = Rect2(
-		Vector2(global_position.x - SQUARE_SIZE.x / 2, global_position.y - SQUARE_SIZE.y / 2),
-		SQUARE_SIZE
-	)
-	draw_rect(middle_rect, ACTIVE_COLOR if selected_corner == CornerPos.MIDDLE else color)
+	if can_position:
+		var middle_rect = Rect2(
+			Vector2(global_position.x - SQUARE_SIZE.x / 2, global_position.y - SQUARE_SIZE.y / 2),
+			SQUARE_SIZE
+		)
+		draw_rect(middle_rect, ACTIVE_COLOR if selected_corner == CornerPos.MIDDLE else color)
 
 	# top left
 	var top_left_rect = Rect2(
@@ -69,6 +72,7 @@ func _input(event: InputEvent) -> void:
 
 		# middle
 		if (
+			can_position and
 			-CORNER_SELECT_OFFSET <= (global_mouse_position - global_position).x
 			and (global_mouse_position - global_position).x <= CORNER_SELECT_OFFSET
 			and -CORNER_SELECT_OFFSET <= (global_mouse_position - global_position).y

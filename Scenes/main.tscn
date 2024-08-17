@@ -104,9 +104,10 @@ min_scale = 0.7
 max_scale = 3.0
 
 [node name="Plant" parent="Node2D" instance=ExtResource("5_e7868")]
-position = Vector2(-96, 56)
+position = Vector2(-88, 64)
 scale = Vector2(8, 8)
-max_scale = 1.5
+can_position = false
+max_scale = 1.1
 
 [node name="LockedDoorConnect" type="Area2D" parent="Node2D"]
 position = Vector2(-147.795, 47.785)
