@@ -5,6 +5,9 @@ enum CornerPos { NONE, TOP_LEFT, TOP_RIGHT, BOTTOM_LEFT, BOTTOM_RIGHT }
 const SCALE_SPEED = 0.1
 const POSITION_OFFSET = 3.25
 
+@export_range(0.1, 1., 0.1) var min_scale = 0.5
+@export_range(1., 3., 0.1) var max_scale = 2.
+
 var mouse_entered_object = false
 var original_scale = Vector2(1, 1)
 var selected_corner: CornerPos = CornerPos.NONE
@@ -99,10 +102,10 @@ func _input(event: InputEvent) -> void:
 
 		if Input.is_action_pressed("left_mouse"):
 			var to_scale = Vector2(scale_amount, scale_amount)
-			if scale + to_scale > original_scale * 2:
-				scale = original_scale * 2
-			elif scale + to_scale < original_scale * 0.5:
-				scale = original_scale * 0.5
+			if scale + to_scale > original_scale * max_scale:
+				scale = original_scale * max_scale
+			elif scale + to_scale < original_scale * min_scale:
+				scale = original_scale * min_scale
 			else:
 				scale += to_scale
 				position += to_move_position * scale_amount

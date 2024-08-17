@@ -2,6 +2,7 @@ shader_type canvas_item;
 
 uniform float thickness : hint_range(0.0, 1.0) = 0.25;
 uniform float alpha : hint_range(0.0, 1.0) = 1.0;
+uniform vec3 colour : source_color = vec3(1.0, 1.0, 1.0);
 
 const vec2 OFFSETS[8] = {
 	vec2(-1, -1), vec2(-1, 0), vec2(-1, 1), vec2(0, -1), vec2(0, 1),
@@ -18,5 +19,5 @@ void fragment() {
 	outline = min(outline, 1.0);
 
 	vec4 color = texture(TEXTURE, UV);
-	COLOR = mix(color, vec4(1.0, 1.0, 1.0, alpha), outline - color.a);
+	COLOR = mix(color, vec4(colour.r, colour.g, colour.b, alpha), outline - color.a);
 }

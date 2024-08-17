@@ -8,6 +8,7 @@
 shader = ExtResource("1_pr8ve")
 shader_parameter/thickness = 0.125
 shader_parameter/alpha = 0.0
+shader_parameter/colour = Color(1, 1, 1, 1)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fjv4m"]
 size = Vector2(12, 12)
@@ -78,7 +79,5 @@ autoplay = "outline_fade"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
 shape = SubResource("CircleShape2D_doeli")
 
-[connection signal="body_entered" from="." to="." method="_on_body_entered"]
-[connection signal="body_exited" from="." to="." method="_on_body_exited"]
 [connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]

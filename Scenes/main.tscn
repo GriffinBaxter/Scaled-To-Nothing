@@ -98,10 +98,13 @@ shape = SubResource("CircleShape2D_f8w3p")
 zoom = Vector2(2, 2)
 
 [node name="Key" parent="Node2D" instance=ExtResource("4_wifqe")]
+min_scale = 0.7
+max_scale = 3.0
 
 [node name="Plant" parent="Node2D" instance=ExtResource("5_e7868")]
 position = Vector2(-96, 56)
 scale = Vector2(8, 8)
+max_scale = 1.5
 
 [node name="LockedDoorConnect" type="Area2D" parent="Node2D"]
 position = Vector2(-147.795, 47.785)
@@ -132,3 +135,4 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [connection signal="area_entered" from="Node2D/LockedDoorConnect" to="." method="_on_locked_door_connect_area_entered"]
+[connection signal="area_exited" from="Node2D/LockedDoorConnect" to="." method="_on_locked_door_connect_area_exited"]
