@@ -2,7 +2,7 @@ extends Area2D
 
 enum CornerPos { NONE, TOP_LEFT, TOP_RIGHT, BOTTOM_LEFT, BOTTOM_RIGHT, MIDDLE }
 
-const SCALE_SPEED = 0.1
+const SCALE_SPEED = 0.01
 const POSITION_OFFSET = 3.25
 const CORNER_SELECT_OFFSET = 12.0
 
@@ -64,8 +64,7 @@ func _draw() -> void:
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion and mouse_entered_object:
-		var scale_amount = SCALE_SPEED
-		var to_move_position = Vector2(0, 0)
+		var scale_amount = SCALE_SPEED * global_scale.x
 		var global_mouse_position = get_global_mouse_position()
 
 		# middle
@@ -84,7 +83,6 @@ func _input(event: InputEvent) -> void:
 		):
 			update_corner(CornerPos.TOP_LEFT)
 			scale_amount *= -event.relative.x - event.relative.y
-			to_move_position = Vector2(-POSITION_OFFSET, -POSITION_OFFSET)
 
 		# top right
 		elif (
@@ -93,7 +91,6 @@ func _input(event: InputEvent) -> void:
 		):
 			update_corner(CornerPos.TOP_RIGHT)
 			scale_amount *= event.relative.x - event.relative.y
-			to_move_position = Vector2(POSITION_OFFSET, -POSITION_OFFSET)
 
 		# bottom left
 		elif (
@@ -102,7 +99,6 @@ func _input(event: InputEvent) -> void:
 		):
 			update_corner(CornerPos.BOTTOM_LEFT)
 			scale_amount *= -event.relative.x + event.relative.y
-			to_move_position = Vector2(-POSITION_OFFSET, POSITION_OFFSET)
 
 		# bottom right
 		elif (
@@ -111,7 +107,6 @@ func _input(event: InputEvent) -> void:
 		):
 			update_corner(CornerPos.BOTTOM_RIGHT)
 			scale_amount *= event.relative.x + event.relative.y
-			to_move_position = Vector2(POSITION_OFFSET, POSITION_OFFSET)
 
 		else:
 			selected_corner = CornerPos.NONE
@@ -127,7 +122,6 @@ func _input(event: InputEvent) -> void:
 				scale = original_scale * min_scale
 			else:
 				scale += to_scale
-				position += to_move_position * scale_amount
 
 
 func update_corner(corner: CornerPos) -> void:
