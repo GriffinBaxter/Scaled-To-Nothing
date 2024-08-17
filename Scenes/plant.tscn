@@ -1,5 +1,6 @@
-[gd_scene load_steps=8 format=3 uid="uid://doelxlcydxmcc"]
+[gd_scene load_steps=9 format=3 uid="uid://doelxlcydxmcc"]
 
+[ext_resource type="Script" path="res://Scripts/object_scaling.gd" id="1_3c75b"]
 [ext_resource type="Texture2D" uid="uid://dh24hvnaj6whw" path="res://Images/Objects.png" id="1_4s427"]
 [ext_resource type="Shader" path="res://Shaders/outline.gdshader" id="1_pr8ve"]
 
@@ -49,9 +50,10 @@ _data = {
 "outline_fade": SubResource("Animation_56fxa")
 }
 
-[node name="Plant" type="AnimatableBody2D"]
+[node name="Plant" type="Area2D"]
 position = Vector2(64, -32)
 scale = Vector2(4, 4)
+script = ExtResource("1_3c75b")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 material = SubResource("ShaderMaterial_fqu1x")
@@ -67,3 +69,6 @@ libraries = {
 "": SubResource("AnimationLibrary_y5ko8")
 }
 autoplay = "outline_fade"
+
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]

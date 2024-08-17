@@ -4,7 +4,7 @@ const SPEED = 250.0
 
 
 func _physics_process(_delta: float) -> void:
-	var direction := Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
+	var direction := Input.get_vector("left", "right", "up", "down")
 	if direction:
 		velocity.x = direction.x * SPEED
 		velocity.y = direction.y * SPEED
