@@ -6,7 +6,6 @@ const SCALE_SPEED = 0.1
 const POSITION_OFFSET = 3.25
 
 var mouse_entered_object = false
-var body_entered_object = false  # TODO: not being used
 var original_scale = Vector2(1, 1)
 var selected_corner: CornerPos = CornerPos.NONE
 
@@ -123,11 +122,3 @@ func _on_mouse_entered() -> void:
 func _on_mouse_exited() -> void:
 	mouse_entered_object = false
 	update_corner(CornerPos.NONE)
-
-
-func _on_body_entered(_body: Node2D) -> void:
-	body_entered_object = true
-
-
-func _on_body_exited(_body: Node2D) -> void:
-	body_entered_object = false
