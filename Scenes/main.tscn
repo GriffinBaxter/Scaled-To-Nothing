@@ -37,7 +37,7 @@ sources/1 = SubResource("TileSetAtlasSource_ucfa0")
 radius = 12.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_qo61c"]
-radius = 9.68
+radius = 3.0
 
 [node name="Main" type="Node"]
 script = ExtResource("1_p1pii")
@@ -68,11 +68,10 @@ zoom = Vector2(2, 2)
 position = Vector2(-96, 56)
 scale = Vector2(8, 8)
 
-[node name="LockedDoorArea2D" type="Area2D" parent="Node2D"]
-position = Vector2(-48.975, 0)
+[node name="LockedDoorConnect" type="Area2D" parent="Node2D"]
+position = Vector2(-147.795, 47.785)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Node2D/LockedDoorArea2D"]
-position = Vector2(-98.025, 49)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Node2D/LockedDoorConnect"]
 shape = SubResource("CircleShape2D_qo61c")
 
 [node name="UI" type="Control" parent="."]
@@ -96,3 +95,5 @@ theme_override_fonts/font = ExtResource("4_f43fv")
 text = "Testing Text"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[connection signal="area_entered" from="Node2D/LockedDoorConnect" to="." method="_on_locked_door_connect_area_entered"]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://bgwxg6te5hgl0"]
+[gd_scene load_steps=10 format=3 uid="uid://bgwxg6te5hgl0"]
 
 [ext_resource type="Shader" path="res://Shaders/outline.gdshader" id="1_0efe4"]
 [ext_resource type="Script" path="res://Scripts/object_scaling.gd" id="1_e3fqv"]
@@ -50,6 +50,9 @@ _data = {
 "outline_fade": SubResource("Animation_56fxa")
 }
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_oashu"]
+radius = 1.0
+
 [node name="Key" type="Area2D"]
 position = Vector2(64, -32)
 scale = Vector2(4, 4)
@@ -69,6 +72,12 @@ libraries = {
 "": SubResource("AnimationLibrary_y5ko8")
 }
 autoplay = "outline_fade"
+
+[node name="KeyConnect" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="KeyConnect"]
+position = Vector2(-2.985, 0.525)
+shape = SubResource("CircleShape2D_oashu")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="body_exited" from="." to="." method="_on_body_exited"]
