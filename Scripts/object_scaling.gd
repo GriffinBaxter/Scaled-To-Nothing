@@ -15,6 +15,7 @@ var mouse_entered_object = false
 var original_scale = Vector2(1, 1)
 var selected_corner: CornerPos = CornerPos.NONE
 var current_scale_amount = 0
+var currently_scaling_or_positioning = false
 
 
 func _ready() -> void:
@@ -73,52 +74,77 @@ func _input(event: InputEvent) -> void:
 
 		# middle
 		if (
-			can_position
-			and -CORNER_SELECT_OFFSET <= (global_mouse_position - global_position).x
-			and (global_mouse_position - global_position).x <= CORNER_SELECT_OFFSET
-			and -CORNER_SELECT_OFFSET <= (global_mouse_position - global_position).y
-			and (global_mouse_position - global_position).y <= CORNER_SELECT_OFFSET
+			(currently_scaling_or_positioning and selected_corner == CornerPos.MIDDLE)
+			or (
+				can_position
+				and -CORNER_SELECT_OFFSET <= (global_mouse_position - global_position).x
+				and (global_mouse_position - global_position).x <= CORNER_SELECT_OFFSET
+				and -CORNER_SELECT_OFFSET <= (global_mouse_position - global_position).y
+				and (global_mouse_position - global_position).y <= CORNER_SELECT_OFFSET
+			)
 		):
-			update_corner(CornerPos.MIDDLE)
+			if not currently_scaling_or_positioning:
+				update_corner(CornerPos.MIDDLE)
 
 		# top left
 		elif (
-			(global_mouse_position - global_position).x < -CORNER_SELECT_OFFSET
-			and (global_mouse_position - global_position).y < -CORNER_SELECT_OFFSET
+			(currently_scaling_or_positioning and selected_corner == CornerPos.TOP_LEFT)
+			or (
+				(global_mouse_position - global_position).x < -CORNER_SELECT_OFFSET
+				and (global_mouse_position - global_position).y < -CORNER_SELECT_OFFSET
+			)
 		):
-			update_corner(CornerPos.TOP_LEFT)
+			if not currently_scaling_or_positioning:
+				update_corner(CornerPos.TOP_LEFT)
 			current_scale_amount = scale_amount * (-event.relative.x - event.relative.y)
 
 		# top right
 		elif (
-			(global_mouse_position - global_position).x > CORNER_SELECT_OFFSET
-			and (global_mouse_position - global_position).y < -CORNER_SELECT_OFFSET
+			(currently_scaling_or_positioning and selected_corner == CornerPos.TOP_RIGHT)
+			or (
+				(global_mouse_position - global_position).x > CORNER_SELECT_OFFSET
+				and (global_mouse_position - global_position).y < -CORNER_SELECT_OFFSET
+			)
 		):
-			update_corner(CornerPos.TOP_RIGHT)
+			if not currently_scaling_or_positioning:
+				update_corner(CornerPos.TOP_RIGHT)
 			current_scale_amount = scale_amount * (event.relative.x - event.relative.y)
 
 		# bottom left
 		elif (
-			(global_mouse_position - global_position).x < -CORNER_SELECT_OFFSET
-			and (global_mouse_position - global_position).y > CORNER_SELECT_OFFSET
+			(currently_scaling_or_positioning and selected_corner == CornerPos.BOTTOM_LEFT)
+			or (
+				(global_mouse_position - global_position).x < -CORNER_SELECT_OFFSET
+				and (global_mouse_position - global_position).y > CORNER_SELECT_OFFSET
+			)
 		):
-			update_corner(CornerPos.BOTTOM_LEFT)
+			if not currently_scaling_or_positioning:
+				update_corner(CornerPos.BOTTOM_LEFT)
 			current_scale_amount = scale_amount * (-event.relative.x + event.relative.y)
 
 		# bottom right
 		elif (
-			(global_mouse_position - global_position).x > CORNER_SELECT_OFFSET
-			and (global_mouse_position - global_position).y > CORNER_SELECT_OFFSET
+			(currently_scaling_or_positioning and selected_corner == CornerPos.BOTTOM_RIGHT)
+			or (
+				(global_mouse_position - global_position).x > CORNER_SELECT_OFFSET
+				and (global_mouse_position - global_position).y > CORNER_SELECT_OFFSET
+			)
 		):
-			update_corner(CornerPos.BOTTOM_RIGHT)
+			if not currently_scaling_or_positioning:
+				update_corner(CornerPos.BOTTOM_RIGHT)
 			current_scale_amount = scale_amount * (event.relative.x + event.relative.y)
 
 		else:
-			selected_corner = CornerPos.NONE
+			update_corner(CornerPos.NONE)
 			current_scale_amount = 0
 
 
 func _process(_delta: float) -> void:
+	if Input.is_action_just_pressed("left_mouse"):
+		currently_scaling_or_positioning = true
+	elif Input.is_action_just_released("left_mouse"):
+		currently_scaling_or_positioning = false
+
 	if mouse_entered_object and Input.is_action_pressed("left_mouse"):
 		var global_mouse_position = get_global_mouse_position()
 		var to_scale = Vector2(current_scale_amount, current_scale_amount)
@@ -145,4 +171,3 @@ func _on_mouse_entered() -> void:
 
 func _on_mouse_exited() -> void:
 	mouse_entered_object = false
-	update_corner(CornerPos.NONE)
