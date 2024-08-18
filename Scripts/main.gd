@@ -2,6 +2,7 @@ extends Node
 
 const LEVEL_2_X_POS = -140
 const LEVEL_3_Y_POS = -90
+const LEVEL_4_X_POS = 180
 
 var l1_door_and_key_connected = false
 var l2_door_and_key_connected = false
@@ -11,6 +12,7 @@ var completed_levels = []
 var l1_items_to_hide = []
 var l2_items_to_hide = []
 var l3_items_to_hide = []
+var l4_items_to_hide = []
 var global_object_currently_scaling = null
 
 @onready var player: CharacterBody2D = $Player
@@ -32,12 +34,16 @@ var global_object_currently_scaling = null
 # level 3
 @onready var level_3: Node2D = $Level3
 
+# level 4
+@onready var level_4: Node2D = $Level4
+
 
 func _ready() -> void:
 	l1_items_to_hide = level_1.get_children()
 	l1_items_to_hide.append(l1_label)
 	l2_items_to_hide = level_2.get_children()
 	l3_items_to_hide = level_3.get_children()
+	l4_items_to_hide = level_4.get_children()
 
 
 func _process(_delta: float) -> void:
@@ -46,13 +52,14 @@ func _process(_delta: float) -> void:
 	if not completed_levels.has(2):
 		complete_criteria(l2_door_and_key_connected, l2_key, l2_tile_map, l2_locked_door_connect)
 
-	if player.global_position.x >= LEVEL_2_X_POS and player.global_position.y >= LEVEL_3_Y_POS:
-		update_level(1, l1_items_to_hide, [l2_items_to_hide, l3_items_to_hide])
+	if player.global_position.x > LEVEL_4_X_POS:
+		update_level(4, l4_items_to_hide, [l1_items_to_hide, l2_items_to_hide, l3_items_to_hide])
+	elif player.global_position.x >= LEVEL_2_X_POS and player.global_position.y >= LEVEL_3_Y_POS:
+		update_level(1, l1_items_to_hide, [l2_items_to_hide, l3_items_to_hide, l4_items_to_hide])
 	elif player.global_position.x < LEVEL_2_X_POS:
-		update_level(2, l2_items_to_hide, [l1_items_to_hide, l3_items_to_hide])
+		update_level(2, l2_items_to_hide, [l1_items_to_hide, l3_items_to_hide, l4_items_to_hide])
 	else:
-		update_level(3, l3_items_to_hide, [l1_items_to_hide, l2_items_to_hide])
-		player_area_2d_for_scaling.can_scale = true
+		update_level(3, l3_items_to_hide, [l1_items_to_hide, l2_items_to_hide, l4_items_to_hide])
 
 
 func set_sprite_outline_colour(sprite, colour):
@@ -68,6 +75,8 @@ func update_level(new_level, visible_items, non_visible_items_array):
 		for item in items:
 			if is_instance_valid(item):
 				item.visible = false
+
+	player_area_2d_for_scaling.can_scale = level == 3
 
 
 func complete_criteria(door_and_key_connected, key, tile_map, locked_door_connect):
