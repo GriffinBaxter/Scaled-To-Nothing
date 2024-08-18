@@ -23,6 +23,9 @@ var selected_corner: CornerPos = CornerPos.NONE
 var current_scale_amount = 0
 var currently_scaling_or_positioning = false
 var near_player = false
+var sound_playing = false
+
+@onready var move_or_scale: AudioStreamPlayer = %MoveOrScale
 
 
 func _ready() -> void:
@@ -182,6 +185,8 @@ func _process(delta: float) -> void:
 		if Input.is_action_just_released("left_mouse"):
 			currently_scaling_or_positioning = false
 			object_currently_scaling.emit(null)
+			move_or_scale.stop()
+			sound_playing = false
 
 		elif (
 			near_player
@@ -190,6 +195,9 @@ func _process(delta: float) -> void:
 		):
 			object_currently_scaling.emit(self)
 			if main.global_object_currently_scaling == self:
+				if not sound_playing:
+					move_or_scale.play()
+					sound_playing = true
 				currently_scaling_or_positioning = true
 				var global_mouse_position = get_global_mouse_position()
 				var to_scale = Vector2(current_scale_amount * delta, current_scale_amount * delta)
