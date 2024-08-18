@@ -35,9 +35,9 @@ func _ready() -> void:
 
 func _process(_delta: float) -> void:
 	if not completed_levels.has(1):
-		l1_complete_criteria()
+		complete_criteria(l1_door_and_key_connected, l1_key, l1_tile_map, l1_locked_door_connect)
 	if not completed_levels.has(2):
-		l2_complete_criteria()
+		complete_criteria(l2_door_and_key_connected, l2_key, l2_tile_map, l2_locked_door_connect)
 
 	if player.global_position.x >= LEVEL_2_X_POS:
 		update_level(1, l1_items_to_hide, [l2_items_to_hide])
@@ -60,50 +60,27 @@ func update_level(new_level, visible_items, non_visible_items_array):
 				item.visible = false
 
 
-func l1_complete_criteria():
-	if l1_door_and_key_connected:
-		set_sprite_outline_colour(l1_key, Color.BLACK)
-		if 6 <= l1_key.scale.x and l1_key.scale.x <= 8:
-			l1_unlock_door()
+func complete_criteria(door_and_key_connected, key, tile_map, locked_door_connect):
+	if door_and_key_connected:
+		set_sprite_outline_colour(key, Color.BLACK)
+		if 6 <= key.scale.x and key.scale.x <= 8:
+			unlock_door(tile_map, locked_door_connect, key)
 	else:
-		set_sprite_outline_colour(l1_key, Color.WHITE)
+		set_sprite_outline_colour(key, Color.WHITE)
 
 
-func l1_unlock_door():
-	var locked_door_tile_pos = l1_tile_map.to_local(l1_locked_door_connect.global_position)
-	var locked_door_tile_map_pos = l1_tile_map.local_to_map(locked_door_tile_pos)
+func unlock_door(tile_map, locked_door_connect, key):
+	var locked_door_tile_pos = tile_map.to_local(locked_door_connect.global_position)
+	var locked_door_tile_map_pos = tile_map.local_to_map(locked_door_tile_pos)
 
-	var floor_tile_pos = l1_tile_map.to_local(l1_key.global_position)
-	var floor_tile_map_pos = l1_tile_map.local_to_map(floor_tile_pos)
+	var floor_tile_pos = tile_map.to_local(key.global_position)
+	var floor_tile_map_pos = tile_map.local_to_map(floor_tile_pos)
 
-	var floor_tile = l1_tile_map.get_cell_source_id(floor_tile_map_pos)
-	l1_tile_map.set_cell(locked_door_tile_map_pos, floor_tile, Vector2i(0, 0))
+	var floor_tile = tile_map.get_cell_source_id(floor_tile_map_pos)
+	tile_map.set_cell(locked_door_tile_map_pos, floor_tile, Vector2i(0, 0))
 
-	l1_key.queue_free()
-	completed_levels.append(1)
-
-
-func l2_complete_criteria():
-	if l2_door_and_key_connected:
-		set_sprite_outline_colour(l2_key, Color.BLACK)
-		if 6 <= l2_key.scale.x and l2_key.scale.x <= 8:
-			l2_unlock_door()
-	else:
-		set_sprite_outline_colour(l2_key, Color.WHITE)
-
-
-func l2_unlock_door():
-	var locked_door_tile_pos = l2_tile_map.to_local(l2_locked_door_connect.global_position)
-	var locked_door_tile_map_pos = l2_tile_map.local_to_map(locked_door_tile_pos)
-
-	var floor_tile_pos = l2_tile_map.to_local(l2_key.global_position)
-	var floor_tile_map_pos = l2_tile_map.local_to_map(floor_tile_pos)
-
-	var floor_tile = l2_tile_map.get_cell_source_id(floor_tile_map_pos)
-	l2_tile_map.set_cell(locked_door_tile_map_pos, floor_tile, Vector2i(0, 0))
-
-	l2_key.queue_free()
-	completed_levels.append(2)
+	key.queue_free()
+	completed_levels.append(level)
 
 
 func _on_object_currently_scaling(value: Variant) -> void:
