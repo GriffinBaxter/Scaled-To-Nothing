@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=4 uid="uid://2n7xtdyiry4g"]
+[gd_scene load_steps=16 format=4 uid="uid://2n7xtdyiry4g"]
 
 [ext_resource type="Script" path="res://Scripts/player.gd" id="1_fhvsp"]
 [ext_resource type="Texture2D" uid="uid://f75gnjjahelx" path="res://Images/Tilemap.png" id="1_nybsv"]
@@ -7,6 +7,8 @@
 [ext_resource type="FontFile" uid="uid://b5onpbcedntbx" path="res://Font/Silkscreen/slkscr.ttf" id="4_f43fv"]
 [ext_resource type="PackedScene" uid="uid://bgwxg6te5hgl0" path="res://Scenes/key.tscn" id="4_wifqe"]
 [ext_resource type="PackedScene" uid="uid://doelxlcydxmcc" path="res://Scenes/plant.tscn" id="5_e7868"]
+[ext_resource type="PackedScene" uid="uid://d1dfupjh15tx0" path="res://Scenes/key_flipped.tscn" id="7_26u75"]
+[ext_resource type="PackedScene" uid="uid://cw060s65mpccl" path="res://Scenes/locked_door_connect.tscn" id="7_aelm3"]
 [ext_resource type="PackedScene" uid="uid://cwm8i0stur1uj" path="res://Scenes/square_table.tscn" id="7_m16ng"]
 [ext_resource type="PackedScene" uid="uid://bhx27ynh18tyk" path="res://Scenes/circle_table.tscn" id="8_vmjtb"]
 
@@ -71,9 +73,6 @@ tile_size = Vector2i(8, 8)
 physics_layer_0/collision_layer = 1
 sources/1 = SubResource("TileSetAtlasSource_ucfa0")
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_qo61c"]
-radius = 3.0
-
 [node name="Main" type="Node"]
 script = ExtResource("1_p1pii")
 
@@ -113,11 +112,7 @@ scale = Vector2(8, 8)
 can_position = false
 max_scale = 1.1
 
-[node name="LockedDoorConnect" type="Area2D" parent="Level1"]
-position = Vector2(-147.795, 47.785)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Level1/LockedDoorConnect"]
-shape = SubResource("CircleShape2D_qo61c")
+[node name="LockedDoorConnect" parent="Level1" instance=ExtResource("7_aelm3")]
 
 [node name="Level2" type="Node2D" parent="."]
 
@@ -127,10 +122,8 @@ scale = Vector2(4, 4)
 tile_map_data = PackedByteArray("AAD7//3/AQABAAAAAAD7//7/AQABAAAAAAD7////AQABAAAAAAD7/wAAAQABAAAAAAD7//z/AQABAAAAAAD7/wMAAQABAAAAAAD7/wIAAQABAAAAAAD7/wEAAQAAAAAAAAD6//z/AQAAAAAAAAD6//3/AQAAAAAAAAD6//7/AQAAAAAAAAD6////AQAAAAAAAAD6/wAAAQAAAAAAAAD6/wEAAQAAAAAAAAD6/wIAAQAAAAAAAAD6/wMAAQAAAAAAAAD6/wQAAQAAAAAAAAD6/wUAAQAAAAAAAAD5/wUAAQAAAAAAAAD4/wUAAQAAAAAAAAD3/wUAAQAAAAAAAAD3/wQAAQAAAAAAAAD3/wMAAQAAAAAAAAD3/wIAAQAAAAAAAAD3/wEAAQABAAAAAAD4/wEAAQAAAAAAAAD5/wEAAQAAAAAAAAD4/wIAAQAAAAAAAAD4/wMAAQAAAAAAAAD5/wMAAQAAAAAAAAD5/wIAAQAAAAAAAAD4/wQAAQAAAAAAAAD5/wQAAQAAAAAAAAD5/wAAAQAAAAAAAAD5////AQAAAAAAAAD5//7/AQAAAAAAAAD5//3/AQAAAAAAAAD5//z/AQAAAAAAAAD4//z/AQAAAAAAAAD3//z/AQAAAAAAAAD3//3/AQAAAAAAAAD3//7/AQABAAAAAAD4//7/AQAAAAAAAAD4//3/AQAAAAAAAAD2/wMAAQAAAAAAAAD1/wMAAQABAAAAAAD1/wQAAQAAAAAAAAD0/wQAAQABAAAAAAD0/wUAAQAAAAAAAAD1/wUAAQAAAAAAAAD2/wUAAQAAAAAAAAD2/wQAAQAAAAAAAAD2//3/AQABAAAAAAD2//z/AQAAAAAAAAD1//z/AQABAAAAAAD0//z/AQABAAAAAAD1//3/AQABAAAAAAD2//7/AQABAAAAAAD4////AQAAAAAAAAD4/wAAAQAAAAAAAAD3////AQABAAAAAAD3/wAAAQABAAAAAAD7/wQAAQABAAAAAAD7/wUAAQABAAAAAAD7/wYAAQABAAAAAAD6/wYAAQABAAAAAAD5/wYAAQABAAAAAAD4/wYAAQABAAAAAAD3/wYAAQABAAAAAAD2/wYAAQABAAAAAAD1/wYAAQABAAAAAAD0/wYAAQABAAAAAADz/wYAAQABAAAAAADz/wUAAQABAAAAAADz/wQAAQABAAAAAAD7//v/AQABAAAAAAD7//r/AQAAAAEAAgD7//n/AQABAAAAAAD6//n/AQABAAAAAAD5//n/AQABAAAAAAD4//n/AQABAAAAAAD3//n/AQABAAAAAAD2//n/AQABAAAAAAD1//n/AQABAAAAAAD0//n/AQABAAAAAADz//n/AQABAAAAAADz//r/AQABAAAAAAD0/wMAAQABAAAAAAD1/wIAAQABAAAAAAD2/wIAAQABAAAAAAD2/wEAAQABAAAAAADz//v/AQABAAAAAAD0//v/AQABAAAAAAD2//v/AQAAAAAAAAD1//v/AQAAAAAAAAD1//r/AQAAAAAAAAD0//r/AQAAAAAAAAD2//r/AQAAAAAAAAD3//r/AQAAAAAAAAD4//r/AQAAAAAAAAD5//r/AQAAAAAAAAD6//r/AQAAAAAAAAD6//v/AQAAAAAAAAD5//v/AQAAAAAAAAD4//v/AQAAAAAAAAD3//v/AQAAAAAAAAA=")
 tile_set = SubResource("TileSet_8iq43")
 
-[node name="Key" parent="Level2" instance=ExtResource("4_wifqe")]
+[node name="KeyFlipped" parent="Level2" instance=ExtResource("7_26u75")]
 position = Vector2(-360, 176)
-min_scale = 0.7
-max_scale = 3.0
 
 [node name="Plant" parent="Level2" instance=ExtResource("5_e7868")]
 position = Vector2(-216, -144)
@@ -149,6 +142,9 @@ position = Vector2(-232, 104)
 scale = Vector2(8, 8)
 can_position = false
 max_scale = 1.5
+
+[node name="LockedDoorConnect" parent="Level2" instance=ExtResource("7_aelm3")]
+position = Vector2(-140, -176)
 
 [node name="UI" type="Control" parent="."]
 layout_mode = 3
@@ -174,9 +170,11 @@ vertical_alignment = 1
 
 [connection signal="object_currently_scaling" from="Level1/Key" to="." method="_on_object_currently_scaling"]
 [connection signal="object_currently_scaling" from="Level1/Plant" to="." method="_on_object_currently_scaling"]
-[connection signal="area_entered" from="Level1/LockedDoorConnect" to="." method="_on_locked_door_connect_area_entered"]
-[connection signal="area_exited" from="Level1/LockedDoorConnect" to="." method="_on_locked_door_connect_area_exited"]
-[connection signal="object_currently_scaling" from="Level2/Key" to="." method="_on_object_currently_scaling"]
+[connection signal="area_entered" from="Level1/LockedDoorConnect" to="." method="_l1_on_key_connect"]
+[connection signal="area_exited" from="Level1/LockedDoorConnect" to="." method="_l1_on_key_disconnect"]
+[connection signal="object_currently_scaling" from="Level2/KeyFlipped" to="." method="_on_object_currently_scaling"]
 [connection signal="object_currently_scaling" from="Level2/Plant" to="." method="_on_object_currently_scaling"]
 [connection signal="object_currently_scaling" from="Level2/SquareTable" to="." method="_on_object_currently_scaling"]
 [connection signal="object_currently_scaling" from="Level2/CircleTable" to="." method="_on_object_currently_scaling"]
+[connection signal="area_entered" from="Level2/LockedDoorConnect" to="." method="_l2_on_key_connect"]
+[connection signal="area_exited" from="Level2/LockedDoorConnect" to="." method="_l2_on_key_disconnect"]

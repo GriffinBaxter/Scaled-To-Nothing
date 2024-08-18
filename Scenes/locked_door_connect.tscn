@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://cw060s65mpccl"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_qo61c"]
+radius = 3.0
+
+[node name="LockedDoorConnect" type="Area2D"]
+position = Vector2(-147.795, 47.785)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_qo61c")

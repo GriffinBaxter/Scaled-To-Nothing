@@ -1,0 +1,86 @@
+[gd_scene load_steps=10 format=3 uid="uid://d1dfupjh15tx0"]
+
+[ext_resource type="Script" path="res://Scripts/object_scaling.gd" id="1_a4yt0"]
+[ext_resource type="Shader" path="res://Shaders/outline.gdshader" id="2_36bb6"]
+[ext_resource type="Texture2D" uid="uid://dh24hvnaj6whw" path="res://Images/Objects.png" id="3_thf2s"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_3ang8"]
+shader = ExtResource("2_36bb6")
+shader_parameter/thickness = 0.25
+shader_parameter/alpha = 0.0
+shader_parameter/colour = Color(1, 1, 1, 1)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fjv4m"]
+size = Vector2(12, 12)
+
+[sub_resource type="Animation" id="Animation_ghi4i"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:material:shader_parameter/alpha")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_56fxa"]
+resource_name = "outline_fade"
+length = 5.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:material:shader_parameter/alpha")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(2, 2.5, 3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.5, 1.0, 0.5]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_y5ko8"]
+_data = {
+"RESET": SubResource("Animation_ghi4i"),
+"outline_fade": SubResource("Animation_56fxa")
+}
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_oashu"]
+radius = 1.0
+
+[node name="KeyFlipped" type="Area2D"]
+position = Vector2(64, -32)
+scale = Vector2(4, 4)
+script = ExtResource("1_a4yt0")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+z_index = -1
+material = SubResource("ShaderMaterial_3ang8")
+texture = ExtResource("3_thf2s")
+flip_h = true
+region_enabled = true
+region_rect = Rect2(0, 0, 10, 5)
+
+[node name="MouseCollision" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_fjv4m")
+
+[node name="OutlineFadeAnimation" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_y5ko8")
+}
+autoplay = "outline_fade"
+
+[node name="KeyConnect" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="KeyConnect"]
+position = Vector2(2.985, 0.525)
+shape = SubResource("CircleShape2D_oashu")
+
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]
