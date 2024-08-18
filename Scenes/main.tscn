@@ -87,7 +87,7 @@ physics_layer_0/collision_layer = 1
 sources/1 = SubResource("TileSetAtlasSource_ucfa0")
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tsa2x"]
-size = Vector2(88, 88)
+size = Vector2(11, 11)
 
 [node name="Main" type="Node"]
 script = ExtResource("1_p1pii")
@@ -249,7 +249,7 @@ tile_set = SubResource("TileSet_8iq43")
 
 [node name="Area2DForScalingRoom" type="Area2D" parent="Level4" node_paths=PackedStringArray("scale_position_area", "main")]
 position = Vector2(304, -144)
-scale = Vector2(4, 4)
+scale = Vector2(32, 32)
 script = ExtResource("2_x21wm")
 can_position = false
 scale_position_area = NodePath("../../Player/ScalePositionArea")

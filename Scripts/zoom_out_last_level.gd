@@ -7,15 +7,16 @@ var animation_complete = false
 @onready var camera_2d: Camera2D = $"../Player/Camera2D"
 @onready var collision_shape_2d: CollisionShape2D = $Area2DForScalingRoom/CollisionShape2D
 @onready var end_label: Label = $"../UI/EndMarginContainer/EndLabel"
+@onready var player: CharacterBody2D = $"../Player"
 
 
 func _process(delta: float) -> void:
 	if not scaled_down and not animation_complete:
-		camera_2d.zoom.x = area_2d_for_scaling_room.scale.x * 0.5
-		camera_2d.zoom.y = area_2d_for_scaling_room.scale.x * 0.5
-		collision_shape_2d.scale = area_2d_for_scaling_room.scale * 0.5
+		camera_2d.zoom.x = area_2d_for_scaling_room.scale.x * 0.0625
+		camera_2d.zoom.y = area_2d_for_scaling_room.scale.x * 0.0625
+		collision_shape_2d.scale = area_2d_for_scaling_room.scale * 0.125
 
-		if area_2d_for_scaling_room.scale.x <= 2:
+		if area_2d_for_scaling_room.scale.x <= 16:
 			scaled_down = true
 
 	if not animation_complete and area_2d_for_scaling_room.scale.x >= 0 and camera_2d.zoom.x >= 0:
@@ -26,7 +27,10 @@ func _process(delta: float) -> void:
 			camera_2d.zoom.y -= 0.5 * delta
 
 	if animation_complete:
+		player.movable = false
+		player.visible = false
 		visible = false
 		camera_2d.zoom.x = 2
 		camera_2d.zoom.y = 2
+		camera_2d.global_position = Vector2(304, -144)
 		end_label.visible = true
