@@ -2,6 +2,7 @@ extends Node2D
 
 var scaled_down = false
 var animation_complete = false
+var starting_timer = false
 
 @onready var area_2d_for_scaling_room: Area2D = $Area2DForScalingRoom
 @onready var camera_2d: Camera2D = $"../Player/Camera2D"
@@ -26,7 +27,8 @@ func _process(delta: float) -> void:
 			camera_2d.zoom.x -= 0.5 * delta
 			camera_2d.zoom.y -= 0.5 * delta
 
-	if animation_complete:
+	if animation_complete and not starting_timer:
+		starting_timer = true
 		player.movable = false
 		player.visible = false
 		visible = false
@@ -34,3 +36,6 @@ func _process(delta: float) -> void:
 		camera_2d.zoom.y = 2
 		camera_2d.global_position = Vector2(304, -144)
 		end_label.visible = true
+
+		await get_tree().create_timer(5).timeout
+		get_tree().change_scene_to_file("res://Scenes/main_menu.tscn")

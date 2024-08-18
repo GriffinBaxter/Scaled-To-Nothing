@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://cqsbgp4w7hxhs"]
+[gd_scene load_steps=5 format=3 uid="uid://cqsbgp4w7hxhs"]
 
 [ext_resource type="Script" path="res://Scripts/main_menu.gd" id="1_11fdd"]
 [ext_resource type="FontFile" uid="uid://b5onpbcedntbx" path="res://Font/Silkscreen/slkscr.ttf" id="1_dgy7t"]
@@ -6,6 +6,10 @@
 [sub_resource type="Theme" id="Theme_k4cwt"]
 default_font = ExtResource("1_dgy7t")
 default_font_size = 50
+
+[sub_resource type="Theme" id="Theme_8lbbn"]
+default_font = ExtResource("1_dgy7t")
+default_font_size = 20
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -46,7 +50,7 @@ custom_minimum_size = Vector2(559.655, 103.185)
 layout_mode = 2
 theme = SubResource("Theme_k4cwt")
 bbcode_enabled = true
-text = "[center]SCALE TO NOTHING[/center]"
+text = "[center]SCALED TO NOTHING[/center]"
 
 [node name="StartGame" type="Button" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -67,12 +71,25 @@ theme_override_font_sizes/font_size = 40
 text = "TOGGLE FULLSCREEN"
 
 [node name="Text2" type="RichTextLabel" parent="MarginContainer/VBoxContainer"]
-custom_minimum_size = Vector2(559.655, 103.185)
+custom_minimum_size = Vector2(559.655, 156.735)
 layout_mode = 2
 theme = SubResource("Theme_k4cwt")
 bbcode_enabled = true
 text = "
-[center]BY GRIFFIN BAXTER[/center]"
+[center]CREATED BY GRIFFIN BAXTER[/center]"
+
+[node name="Text5" type="RichTextLabel" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(559.655, 22.86)
+layout_mode = 2
+theme = SubResource("Theme_k4cwt")
+bbcode_enabled = true
+
+[node name="Text4" type="RichTextLabel" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(559.655, 22.395)
+layout_mode = 2
+theme = SubResource("Theme_8lbbn")
+bbcode_enabled = true
+text = "[center](IN 48 HOURS FOR THE 2024 GMTK GAME JAM)[/center]"
 
 [connection signal="pressed" from="MarginContainer/VBoxContainer/StartGame" to="." method="_on_start_game_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/Fullscreen" to="." method="_on_fullscreen_pressed"]

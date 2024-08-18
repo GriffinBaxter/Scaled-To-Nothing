@@ -174,6 +174,22 @@ ON THE WHITE SQUARES AND DRAG TO SCALE THEM
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="MarginContainer3" type="MarginContainer" parent="UI"]
+layout_mode = 0
+offset_left = -495.0
+offset_top = 223.0
+offset_right = -43.0
+offset_bottom = 266.0
+
+[node name="Label" type="Label" parent="UI/MarginContainer3"]
+layout_mode = 2
+theme_override_constants/line_spacing = -4
+theme_override_fonts/font = ExtResource("4_f43fv")
+text = "TRY MOVING AND DRAGGING
+OBJECTS AT THE SAME TIME"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="EndMarginContainer" type="MarginContainer" parent="UI"]
 layout_mode = 0
 offset_left = 143.0
@@ -185,13 +201,7 @@ offset_bottom = -78.0
 visible = false
 layout_mode = 2
 theme_override_fonts/font = ExtResource("4_f43fv")
-text = "SCALED TO NOTHING
-
-
-
-
-CREATED BY
-GRIFFIN BAXTER"
+text = "SCALED TO NOTHING"
 horizontal_alignment = 1
 vertical_alignment = 1
 

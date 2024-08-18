@@ -31,6 +31,7 @@ var global_object_currently_scaling = null
 @onready var level_2: Node2D = $Level2
 @onready var l2_tile_map: TileMapLayer = $Level2/TileMapLayer2
 @onready var l2_key: Area2D = $Level2/KeyFlipped
+@onready var l2_label_1: Label = $UI/MarginContainer3/Label
 @onready var l2_locked_door_connect: Area2D = $Level2/LockedDoorConnect
 
 # level 3
@@ -44,6 +45,7 @@ func _ready() -> void:
 	l1_items_to_hide = level_1.get_children()
 	l1_items_to_hide.append_array([l1_label_1, l1_label_2])
 	l2_items_to_hide = level_2.get_children()
+	l2_items_to_hide.append_array([l2_label_1])
 	l3_items_to_hide = level_3.get_children()
 	l4_items_to_hide = level_4.get_children()
 
