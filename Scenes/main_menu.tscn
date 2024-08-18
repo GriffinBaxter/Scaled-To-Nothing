@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://cqsbgp4w7hxhs"]
+[gd_scene load_steps=6 format=3 uid="uid://cqsbgp4w7hxhs"]
 
 [ext_resource type="Script" path="res://Scripts/main_menu.gd" id="1_11fdd"]
 [ext_resource type="FontFile" uid="uid://b5onpbcedntbx" path="res://Font/Silkscreen/slkscr.ttf" id="1_dgy7t"]
+[ext_resource type="AudioStream" uid="uid://bmbglqpu5v8sc" path="res://Sounds/main_menu.wav" id="3_mer3m"]
 
 [sub_resource type="Theme" id="Theme_k4cwt"]
 default_font = ExtResource("1_dgy7t")
@@ -90,6 +91,10 @@ layout_mode = 2
 theme = SubResource("Theme_8lbbn")
 bbcode_enabled = true
 text = "[center](IN 48 HOURS FOR THE 2024 GMTK GAME JAM)[/center]"
+
+[node name="MainMenuSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_mer3m")
+volume_db = -12.5
 
 [connection signal="pressed" from="MarginContainer/VBoxContainer/StartGame" to="." method="_on_start_game_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/Fullscreen" to="." method="_on_fullscreen_pressed"]
