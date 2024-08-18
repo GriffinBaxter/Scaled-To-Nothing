@@ -169,7 +169,7 @@ layout_mode = 2
 theme_override_constants/line_spacing = -4
 theme_override_fonts/font = ExtResource("4_f43fv")
 text = "WHEN YOU'RE CLOSE TO OBJECTS, HOLD LEFT CLICK
-ON THE WHITE SQUARES TO SCALE THEM
+ON THE WHITE SQUARES AND DRAG TO SCALE THEM
 (SOME CAN ALSO BE MOVED)"
 horizontal_alignment = 1
 vertical_alignment = 1
