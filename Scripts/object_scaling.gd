@@ -16,6 +16,9 @@ var original_scale = Vector2(1, 1)
 var selected_corner: CornerPos = CornerPos.NONE
 var current_scale_amount = 0
 var currently_scaling_or_positioning = false
+var near_player = false
+
+@onready var scale_position_area: Area2D = $"../../Player/ScalePositionArea"
 
 
 func _ready() -> void:
@@ -23,48 +26,56 @@ func _ready() -> void:
 
 
 func _draw() -> void:
-	const OFFSET = 3.
-	const SQUARE_SIZE = Vector2(1.5, 1.5)
-	const ACTIVE_COLOR = Color(1, 1, 1, 1)
-	var color = Color(1, 1, 1, 0.5) if mouse_entered_object else Color(1, 1, 1, 0.1)
-	draw_set_transform(Vector2(-position.x, -position.y))
+	if near_player:
+		const OFFSET = 3.
+		const SQUARE_SIZE = Vector2(1.5, 1.5)
+		const ACTIVE_COLOR = Color(1, 1, 1, 1)
+		var color = Color(1, 1, 1, 0.5) if mouse_entered_object else Color(1, 1, 1, 0.1)
+		draw_set_transform(Vector2(-position.x, -position.y))
 
-	# middle
-	if can_position:
-		var middle_rect = Rect2(
-			Vector2(global_position.x - SQUARE_SIZE.x / 2, global_position.y - SQUARE_SIZE.y / 2),
+		# middle
+		if can_position:
+			var middle_rect = Rect2(
+				Vector2(
+					global_position.x - SQUARE_SIZE.x / 2, global_position.y - SQUARE_SIZE.y / 2
+				),
+				SQUARE_SIZE
+			)
+			draw_rect(middle_rect, ACTIVE_COLOR if selected_corner == CornerPos.MIDDLE else color)
+
+		# top left
+		var top_left_rect = Rect2(
+			Vector2(
+				global_position.x - OFFSET - SQUARE_SIZE.x,
+				global_position.y - OFFSET - SQUARE_SIZE.y
+			),
 			SQUARE_SIZE
 		)
-		draw_rect(middle_rect, ACTIVE_COLOR if selected_corner == CornerPos.MIDDLE else color)
+		draw_rect(top_left_rect, ACTIVE_COLOR if selected_corner == CornerPos.TOP_LEFT else color)
 
-	# top left
-	var top_left_rect = Rect2(
-		Vector2(
-			global_position.x - OFFSET - SQUARE_SIZE.x, global_position.y - OFFSET - SQUARE_SIZE.y
-		),
-		SQUARE_SIZE
-	)
-	draw_rect(top_left_rect, ACTIVE_COLOR if selected_corner == CornerPos.TOP_LEFT else color)
+		# top right
+		var top_right_rect = Rect2(
+			Vector2(global_position.x + OFFSET, global_position.y - OFFSET - SQUARE_SIZE.y),
+			SQUARE_SIZE
+		)
+		draw_rect(top_right_rect, ACTIVE_COLOR if selected_corner == CornerPos.TOP_RIGHT else color)
 
-	# top right
-	var top_right_rect = Rect2(
-		Vector2(global_position.x + OFFSET, global_position.y - OFFSET - SQUARE_SIZE.y), SQUARE_SIZE
-	)
-	draw_rect(top_right_rect, ACTIVE_COLOR if selected_corner == CornerPos.TOP_RIGHT else color)
+		# bottom left
+		var bottom_left_rect = Rect2(
+			Vector2(global_position.x - OFFSET - SQUARE_SIZE.x, global_position.y + OFFSET),
+			SQUARE_SIZE
+		)
+		draw_rect(
+			bottom_left_rect, ACTIVE_COLOR if selected_corner == CornerPos.BOTTOM_LEFT else color
+		)
 
-	# bottom left
-	var bottom_left_rect = Rect2(
-		Vector2(global_position.x - OFFSET - SQUARE_SIZE.x, global_position.y + OFFSET), SQUARE_SIZE
-	)
-	draw_rect(bottom_left_rect, ACTIVE_COLOR if selected_corner == CornerPos.BOTTOM_LEFT else color)
-
-	# bottom right
-	var bottom_right_rect = Rect2(
-		Vector2(global_position.x + OFFSET, global_position.y + OFFSET), SQUARE_SIZE
-	)
-	draw_rect(
-		bottom_right_rect, ACTIVE_COLOR if selected_corner == CornerPos.BOTTOM_RIGHT else color
-	)
+		# bottom right
+		var bottom_right_rect = Rect2(
+			Vector2(global_position.x + OFFSET, global_position.y + OFFSET), SQUARE_SIZE
+		)
+		draw_rect(
+			bottom_right_rect, ACTIVE_COLOR if selected_corner == CornerPos.BOTTOM_RIGHT else color
+		)
 
 
 func _input(event: InputEvent) -> void:
@@ -143,11 +154,17 @@ func _input(event: InputEvent) -> void:
 
 
 func _process(delta: float) -> void:
+	var new_is_near_player = scale_position_area.overlaps_area(self)
+	if new_is_near_player != near_player:
+		near_player = scale_position_area.overlaps_area(self)
+		queue_redraw()
+
 	if Input.is_action_just_released("left_mouse"):
 		currently_scaling_or_positioning = false
 
 	elif (
-		Input.is_action_pressed("left_mouse")
+		near_player
+		and Input.is_action_pressed("left_mouse")
 		and (mouse_entered_object or currently_scaling_or_positioning)
 	):
 		currently_scaling_or_positioning = true

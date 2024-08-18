@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=4 uid="uid://2n7xtdyiry4g"]
+[gd_scene load_steps=15 format=4 uid="uid://2n7xtdyiry4g"]
 
 [ext_resource type="Script" path="res://Scripts/player.gd" id="1_fhvsp"]
 [ext_resource type="Texture2D" uid="uid://f75gnjjahelx" path="res://Images/Tilemap.png" id="1_nybsv"]
@@ -12,6 +12,9 @@
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_f8w3p"]
 radius = 12.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_5demu"]
+radius = 60.0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ucfa0"]
 texture = ExtResource("1_nybsv")
@@ -87,6 +90,11 @@ shape = SubResource("CircleShape2D_f8w3p")
 [node name="Camera2D" type="Camera2D" parent="Player"]
 zoom = Vector2(2, 2)
 
+[node name="ScalePositionArea" type="Area2D" parent="Player"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player/ScalePositionArea"]
+shape = SubResource("CircleShape2D_5demu")
+
 [node name="Level1" type="Node2D" parent="."]
 
 [node name="TileMapLayer1" type="TileMapLayer" parent="Level1"]
@@ -132,12 +140,14 @@ can_position = false
 [node name="SquareTable" parent="Level2" instance=ExtResource("7_m16ng")]
 position = Vector2(-296, 160)
 scale = Vector2(8, 8)
+can_position = false
 min_scale = 0.3
 max_scale = 1.5
 
 [node name="CircleTable" parent="Level2" instance=ExtResource("8_vmjtb")]
 position = Vector2(-232, 104)
 scale = Vector2(8, 8)
+can_position = false
 max_scale = 1.5
 
 [node name="UI" type="Control" parent="."]
