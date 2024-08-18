@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=4 uid="uid://2n7xtdyiry4g"]
+[gd_scene load_steps=26 format=4 uid="uid://2n7xtdyiry4g"]
 
 [ext_resource type="Script" path="res://Scripts/player.gd" id="1_fhvsp"]
 [ext_resource type="Texture2D" uid="uid://f75gnjjahelx" path="res://Images/Tilemap.png" id="1_nybsv"]
@@ -17,6 +17,7 @@
 [ext_resource type="AudioStream" uid="uid://s75dwfqbwf44" path="res://Sounds/move_or_scale.wav" id="15_jv0b7"]
 [ext_resource type="AudioStream" uid="uid://bcg8grxqmysol" path="res://Sounds/press_button.wav" id="16_se46u"]
 [ext_resource type="AudioStream" uid="uid://gy6umlwg46nb" path="res://Sounds/unlock.wav" id="17_edo7h"]
+[ext_resource type="AudioStream" uid="uid://bl64jr13rf6sv" path="res://Sounds/unlock_door.wav" id="18_rx6vt"]
 
 [sub_resource type="Theme" id="Theme_4etru"]
 default_font = ExtResource("4_f43fv")
@@ -321,6 +322,9 @@ volume_db = -10.0
 [node name="Unlock" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("17_edo7h")
 volume_db = -15.0
+
+[node name="UnlockDoor" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("18_rx6vt")
 
 [connection signal="mouse_entered" from="Player/Area2DForScaling" to="Player/Area2DForScaling" method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="Player/Area2DForScaling" to="Player/Area2DForScaling" method="_on_mouse_exited"]

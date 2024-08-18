@@ -20,6 +20,7 @@ var global_object_currently_scaling = null
 @onready var player_label: RichTextLabel = $Player/Sprite2D/PlayerLabel
 @onready var press_button: AudioStreamPlayer = $PressButton
 @onready var unlock: AudioStreamPlayer = $Unlock
+@onready var unlock_door_sound: AudioStreamPlayer = $UnlockDoor
 
 # level 1
 @onready var level_1: Node2D = $Level1
@@ -129,6 +130,8 @@ func unlock_door(tile_map, locked_door_connect, key):
 
 	if level == 2:
 		player_label.visible = false
+
+	unlock_door_sound.play()
 
 
 func _on_object_currently_scaling(value: Variant) -> void:
