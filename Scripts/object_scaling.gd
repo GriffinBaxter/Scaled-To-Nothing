@@ -194,7 +194,14 @@ func _process(delta: float) -> void:
 				var global_mouse_position = get_global_mouse_position()
 				var to_scale = Vector2(current_scale_amount * delta, current_scale_amount * delta)
 				if selected_corner == CornerPos.MIDDLE:
-					position = global_mouse_position
+					# This makes it so you can't move objects outside the player boundary
+					# (avoids objects getting stuck)
+					var distance = (
+						(global_mouse_position.abs() - scale_position_area.global_position.abs())
+						. abs()
+					)
+					if distance.x < 65 and distance.y < 65:
+						position = global_mouse_position
 				elif scale + to_scale > original_scale * max_scale:
 					scale = original_scale * max_scale
 				elif scale + to_scale < original_scale * min_scale:

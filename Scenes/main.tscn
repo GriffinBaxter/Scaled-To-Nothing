@@ -231,6 +231,7 @@ tile_set = SubResource("TileSet_8iq43")
 position = Vector2(-360, 176)
 scale_position_area = NodePath("../../Player/ScalePositionArea")
 main = NodePath("../..")
+min_scale = 0.7
 
 [node name="Plant" parent="Level2" node_paths=PackedStringArray("scale_position_area", "main") instance=ExtResource("5_e7868")]
 position = Vector2(-216, -144)
