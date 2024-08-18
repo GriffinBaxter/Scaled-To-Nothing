@@ -33,7 +33,7 @@ func _draw() -> void:
 		const OFFSET = 3.
 		const SQUARE_SIZE = Vector2(1.5, 1.5)
 		const ACTIVE_COLOR = Color(1, 1, 1, 1)
-		var color = Color(1, 1, 1, 0.5) if mouse_entered_object else Color(1, 1, 1, 0.1)
+		const INACTIVE_COLOR = Color(1, 1, 1, 0.25)
 		draw_set_transform(Vector2(-position.x, -position.y))
 
 		# middle
@@ -44,7 +44,9 @@ func _draw() -> void:
 				),
 				SQUARE_SIZE
 			)
-			draw_rect(middle_rect, ACTIVE_COLOR if selected_corner == CornerPos.MIDDLE else color)
+			draw_rect(
+				middle_rect, ACTIVE_COLOR if selected_corner == CornerPos.MIDDLE else INACTIVE_COLOR
+			)
 
 		# top left
 		var top_left_rect = Rect2(
@@ -54,14 +56,19 @@ func _draw() -> void:
 			),
 			SQUARE_SIZE
 		)
-		draw_rect(top_left_rect, ACTIVE_COLOR if selected_corner == CornerPos.TOP_LEFT else color)
+		draw_rect(
+			top_left_rect, ACTIVE_COLOR if selected_corner == CornerPos.TOP_LEFT else INACTIVE_COLOR
+		)
 
 		# top right
 		var top_right_rect = Rect2(
 			Vector2(global_position.x + OFFSET, global_position.y - OFFSET - SQUARE_SIZE.y),
 			SQUARE_SIZE
 		)
-		draw_rect(top_right_rect, ACTIVE_COLOR if selected_corner == CornerPos.TOP_RIGHT else color)
+		draw_rect(
+			top_right_rect,
+			ACTIVE_COLOR if selected_corner == CornerPos.TOP_RIGHT else INACTIVE_COLOR
+		)
 
 		# bottom left
 		var bottom_left_rect = Rect2(
@@ -69,7 +76,8 @@ func _draw() -> void:
 			SQUARE_SIZE
 		)
 		draw_rect(
-			bottom_left_rect, ACTIVE_COLOR if selected_corner == CornerPos.BOTTOM_LEFT else color
+			bottom_left_rect,
+			ACTIVE_COLOR if selected_corner == CornerPos.BOTTOM_LEFT else INACTIVE_COLOR
 		)
 
 		# bottom right
@@ -77,7 +85,8 @@ func _draw() -> void:
 			Vector2(global_position.x + OFFSET, global_position.y + OFFSET), SQUARE_SIZE
 		)
 		draw_rect(
-			bottom_right_rect, ACTIVE_COLOR if selected_corner == CornerPos.BOTTOM_RIGHT else color
+			bottom_right_rect,
+			ACTIVE_COLOR if selected_corner == CornerPos.BOTTOM_RIGHT else INACTIVE_COLOR
 		)
 
 
