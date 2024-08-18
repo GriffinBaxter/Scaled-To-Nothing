@@ -17,12 +17,14 @@ var global_object_currently_scaling = null
 
 @onready var player: CharacterBody2D = $Player
 @onready var player_area_2d_for_scaling: Area2D = $Player/Area2DForScaling
+@onready var player_label: RichTextLabel = $Player/Sprite2D/PlayerLabel
 
 # level 1
 @onready var level_1: Node2D = $Level1
 @onready var l1_tile_map: TileMapLayer = $Level1/TileMapLayer1
 @onready var l1_key: Area2D = $Level1/Key
-@onready var l1_label: Label = $UI/MarginContainer/Label
+@onready var l1_label_1: Label = $UI/MarginContainer/Label
+@onready var l1_label_2: Label = $UI/MarginContainer2/Label
 @onready var l1_locked_door_connect: Area2D = $Level1/LockedDoorConnect
 
 # level 2
@@ -40,10 +42,12 @@ var global_object_currently_scaling = null
 
 func _ready() -> void:
 	l1_items_to_hide = level_1.get_children()
-	l1_items_to_hide.append(l1_label)
+	l1_items_to_hide.append_array([l1_label_1, l1_label_2])
 	l2_items_to_hide = level_2.get_children()
 	l3_items_to_hide = level_3.get_children()
 	l4_items_to_hide = level_4.get_children()
+
+	player_label.text = ""
 
 
 func _process(_delta: float) -> void:
@@ -64,6 +68,19 @@ func _process(_delta: float) -> void:
 
 func set_sprite_outline_colour(sprite, colour):
 	sprite.find_child("Sprite2D").material.set_shader_parameter("colour", colour)
+	var current_level_key
+	if level == 1:
+		current_level_key = l1_key
+	if level == 2:
+		current_level_key = l2_key
+
+	if is_instance_valid(current_level_key):
+		if colour == Color.BLACK and sprite == current_level_key:
+			player_label.text = "THE KEY'S SCALE ISN'T QUITE RIGHT..."
+		elif colour == Color.WHITE and sprite == current_level_key:
+			player_label.text = ""
+	else:
+		player_label.text = ""
 
 
 func update_level(new_level, visible_items, non_visible_items_array):
@@ -100,6 +117,9 @@ func unlock_door(tile_map, locked_door_connect, key):
 
 	key.queue_free()
 	completed_levels.append(level)
+
+	if level == 2:
+		player_label.visible = false
 
 
 func _on_object_currently_scaling(value: Variant) -> void:

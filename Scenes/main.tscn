@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=4 uid="uid://2n7xtdyiry4g"]
+[gd_scene load_steps=21 format=4 uid="uid://2n7xtdyiry4g"]
 
 [ext_resource type="Script" path="res://Scripts/player.gd" id="1_fhvsp"]
 [ext_resource type="Texture2D" uid="uid://f75gnjjahelx" path="res://Images/Tilemap.png" id="1_nybsv"]
@@ -13,6 +13,9 @@
 [ext_resource type="PackedScene" uid="uid://cwm8i0stur1uj" path="res://Scenes/square_table.tscn" id="7_m16ng"]
 [ext_resource type="PackedScene" uid="uid://bhx27ynh18tyk" path="res://Scenes/circle_table.tscn" id="8_vmjtb"]
 [ext_resource type="Script" path="res://Scripts/zoom_out_last_level.gd" id="13_k46e0"]
+
+[sub_resource type="Theme" id="Theme_4etru"]
+default_font = ExtResource("4_f43fv")
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_f8w3p"]
 radius = 12.0
@@ -100,6 +103,15 @@ z_index = -1
 scale = Vector2(4, 4)
 texture = ExtResource("3_4tu8w")
 
+[node name="PlayerLabel" type="RichTextLabel" parent="Player/Sprite2D"]
+offset_left = -10.25
+offset_top = -14.0
+offset_right = 120.93
+offset_bottom = 39.385
+scale = Vector2(0.165, 0.165)
+theme = SubResource("Theme_4etru")
+text = "DEFAULT TEXT DEFAULT TEXT DEFAULT TEXT"
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
 shape = SubResource("CircleShape2D_f8w3p")
 
@@ -142,6 +154,23 @@ offset_bottom = -131.785
 layout_mode = 2
 theme_override_fonts/font = ExtResource("4_f43fv")
 text = "USE WASD OR ARROW KEYS TO MOVE"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MarginContainer2" type="MarginContainer" parent="UI"]
+layout_mode = 0
+offset_left = -223.0
+offset_top = 130.0
+offset_right = 229.0
+offset_bottom = 173.0
+
+[node name="Label" type="Label" parent="UI/MarginContainer2"]
+layout_mode = 2
+theme_override_constants/line_spacing = -4
+theme_override_fonts/font = ExtResource("4_f43fv")
+text = "WHEN YOU'RE CLOSE TO OBJECTS, HOLD LEFT CLICK
+ON THE WHITE SQUARES TO SCALE THEM
+(SOME CAN ALSO BE MOVED)"
 horizontal_alignment = 1
 vertical_alignment = 1
 
