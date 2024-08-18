@@ -143,15 +143,14 @@ func _input(event: InputEvent) -> void:
 
 
 func _process(delta: float) -> void:
-	if Input.is_action_just_pressed("left_mouse") and mouse_entered_object:
-		currently_scaling_or_positioning = true
-	elif Input.is_action_just_released("left_mouse"):
+	if Input.is_action_just_released("left_mouse"):
 		currently_scaling_or_positioning = false
 
-	if (
+	elif (
 		Input.is_action_pressed("left_mouse")
 		and (mouse_entered_object or currently_scaling_or_positioning)
 	):
+		currently_scaling_or_positioning = true
 		var global_mouse_position = get_global_mouse_position()
 		var to_scale = Vector2(current_scale_amount * delta, current_scale_amount * delta)
 		if selected_corner == CornerPos.MIDDLE:
