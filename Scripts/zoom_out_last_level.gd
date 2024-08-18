@@ -3,12 +3,14 @@ extends Node2D
 var scaled_down = false
 var animation_complete = false
 var starting_timer = false
+var played_sound = false
 
 @onready var area_2d_for_scaling_room: Area2D = $Area2DForScalingRoom
 @onready var camera_2d: Camera2D = $"../Player/Camera2D"
 @onready var collision_shape_2d: CollisionShape2D = $Area2DForScalingRoom/CollisionShape2D
 @onready var end_label: Label = $"../UI/EndMarginContainer/EndLabel"
 @onready var player: CharacterBody2D = $"../Player"
+@onready var scale_down_level: AudioStreamPlayer = $"../ScaleDownLevel"
 
 
 func _process(delta: float) -> void:
@@ -24,6 +26,10 @@ func _process(delta: float) -> void:
 		if camera_2d.zoom.x - 0.5 * delta <= 0:
 			animation_complete = true
 		else:
+			if scaled_down and not played_sound:
+				played_sound = true
+				scale_down_level.play()
+
 			camera_2d.zoom.x -= 0.5 * delta
 			camera_2d.zoom.y -= 0.5 * delta
 
