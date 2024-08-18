@@ -114,7 +114,7 @@ can_position = false
 can_scale = false
 scale_position_area = NodePath("../ScalePositionArea")
 main = NodePath("../..")
-max_scale = 1.0
+max_scale = 1.5
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player/Area2DForScaling"]
 shape = SubResource("RectangleShape2D_nbkcc")
