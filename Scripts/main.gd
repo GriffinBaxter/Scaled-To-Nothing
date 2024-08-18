@@ -14,6 +14,7 @@ var l3_items_to_hide = []
 var global_object_currently_scaling = null
 
 @onready var player: CharacterBody2D = $Player
+@onready var player_area_2d_for_scaling: Area2D = $Player/Area2DForScaling
 
 # level 1
 @onready var level_1: Node2D = $Level1
@@ -51,6 +52,7 @@ func _process(_delta: float) -> void:
 		update_level(2, l2_items_to_hide, [l1_items_to_hide, l3_items_to_hide])
 	else:
 		update_level(3, l3_items_to_hide, [l1_items_to_hide, l2_items_to_hide])
+		player_area_2d_for_scaling.can_scale = true
 
 
 func set_sprite_outline_colour(sprite, colour):
