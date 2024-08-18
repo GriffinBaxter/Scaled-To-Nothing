@@ -1,5 +1,7 @@
 extends Area2D
 
+signal object_currently_scaling(value)
+
 enum CornerPos { NONE, TOP_LEFT, TOP_RIGHT, BOTTOM_LEFT, BOTTOM_RIGHT, MIDDLE }
 
 const SCALE_SPEED = 1.25
@@ -19,6 +21,7 @@ var currently_scaling_or_positioning = false
 var near_player = false
 
 @onready var scale_position_area: Area2D = $"../../Player/ScalePositionArea"
+@onready var main: Node = $"../.."
 
 
 func _ready() -> void:
@@ -161,23 +164,26 @@ func _process(delta: float) -> void:
 
 	if Input.is_action_just_released("left_mouse"):
 		currently_scaling_or_positioning = false
+		object_currently_scaling.emit(null)
 
 	elif (
 		near_player
 		and Input.is_action_pressed("left_mouse")
 		and (mouse_entered_object or currently_scaling_or_positioning)
 	):
-		currently_scaling_or_positioning = true
-		var global_mouse_position = get_global_mouse_position()
-		var to_scale = Vector2(current_scale_amount * delta, current_scale_amount * delta)
-		if selected_corner == CornerPos.MIDDLE:
-			position = global_mouse_position
-		elif scale + to_scale > original_scale * max_scale:
-			scale = original_scale * max_scale
-		elif scale + to_scale < original_scale * min_scale:
-			scale = original_scale * min_scale
-		else:
-			scale += to_scale
+		object_currently_scaling.emit(self)
+		if main.global_object_currently_scaling == self:
+			currently_scaling_or_positioning = true
+			var global_mouse_position = get_global_mouse_position()
+			var to_scale = Vector2(current_scale_amount * delta, current_scale_amount * delta)
+			if selected_corner == CornerPos.MIDDLE:
+				position = global_mouse_position
+			elif scale + to_scale > original_scale * max_scale:
+				scale = original_scale * max_scale
+			elif scale + to_scale < original_scale * min_scale:
+				scale = original_scale * min_scale
+			else:
+				scale += to_scale
 
 
 func update_corner(corner: CornerPos) -> void:

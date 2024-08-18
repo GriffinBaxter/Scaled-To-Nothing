@@ -172,5 +172,11 @@ text = "USE WASD OR ARROW KEYS TO MOVE"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[connection signal="object_currently_scaling" from="Level1/Key" to="." method="_on_object_currently_scaling"]
+[connection signal="object_currently_scaling" from="Level1/Plant" to="." method="_on_object_currently_scaling"]
 [connection signal="area_entered" from="Level1/LockedDoorConnect" to="." method="_on_locked_door_connect_area_entered"]
 [connection signal="area_exited" from="Level1/LockedDoorConnect" to="." method="_on_locked_door_connect_area_exited"]
+[connection signal="object_currently_scaling" from="Level2/Key" to="." method="_on_object_currently_scaling"]
+[connection signal="object_currently_scaling" from="Level2/Plant" to="." method="_on_object_currently_scaling"]
+[connection signal="object_currently_scaling" from="Level2/SquareTable" to="." method="_on_object_currently_scaling"]
+[connection signal="object_currently_scaling" from="Level2/CircleTable" to="." method="_on_object_currently_scaling"]

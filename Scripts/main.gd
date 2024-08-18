@@ -8,6 +8,7 @@ var level = 1
 var completed_levels = []
 var l1_items_to_hide = []
 var l2_items_to_hide = []
+var global_object_currently_scaling = null
 
 @onready var player: CharacterBody2D = $Player
 
@@ -84,3 +85,8 @@ func _on_locked_door_connect_area_entered(area: Area2D) -> void:
 func _on_locked_door_connect_area_exited(area: Area2D) -> void:
 	if area.name == "KeyConnect":
 		locked_door_and_key_connected = false
+
+
+func _on_object_currently_scaling(value: Variant) -> void:
+	if global_object_currently_scaling == null or value == null:
+		global_object_currently_scaling = value
