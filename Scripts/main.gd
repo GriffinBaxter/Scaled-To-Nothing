@@ -12,19 +12,20 @@ var l2_items_to_hide = []
 @onready var player: CharacterBody2D = $Player
 
 # level 1
+@onready var level_1: Node2D = $Level1
 @onready var l1_tile_map: TileMapLayer = $Level1/TileMapLayer1
-@onready var l1_plant: Area2D = $Level1/Plant
+@onready var l1_key: Area2D = $Level1/Key
 @onready var l1_label: Label = $UI/MarginContainer/Label
 @onready var l1_locked_door_connect: Area2D = $Level1/LockedDoorConnect
-@onready var l1_key: Area2D = $Level1/Key
 
 # level 2
-@onready var l2_tile_map: TileMapLayer = $Level2/TileMapLayer2
+@onready var level_2: Node2D = $Level2
 
 
 func _ready() -> void:
-	l1_items_to_hide = [l1_tile_map, l1_plant, l1_label]
-	l2_items_to_hide = [l2_tile_map]
+	l1_items_to_hide = level_1.get_children()
+	l1_items_to_hide.append(l1_label)
+	l2_items_to_hide = level_2.get_children()
 
 
 func _process(_delta: float) -> void:
@@ -53,10 +54,12 @@ func set_sprite_outline_colour(sprite, colour):
 func update_level(new_level, visible_items, non_visible_items_array):
 	level = new_level
 	for item in visible_items:
-		item.visible = true
+		if is_instance_valid(item):
+			item.visible = true
 	for items in non_visible_items_array:
 		for item in items:
-			item.visible = false
+			if is_instance_valid(item):
+				item.visible = false
 
 
 func l1_unlock_door():
@@ -69,7 +72,7 @@ func l1_unlock_door():
 	var floor_tile = l1_tile_map.get_cell_source_id(floor_tile_map_pos)
 	l1_tile_map.set_cell(locked_door_tile_map_pos, floor_tile, Vector2i(0, 0))
 
-	l1_key.visible = false
+	l1_key.queue_free()
 	completed_levels.append(1)
 
 
