@@ -18,6 +18,8 @@ var global_object_currently_scaling = null
 @onready var player: CharacterBody2D = $Player
 @onready var player_area_2d_for_scaling: Area2D = $Player/Area2DForScaling
 @onready var player_label: RichTextLabel = $Player/Sprite2D/PlayerLabel
+@onready var press_button: AudioStreamPlayer = $PressButton
+@onready var unlock: AudioStreamPlayer = $Unlock
 
 # level 1
 @onready var level_1: Node2D = $Level1
@@ -50,6 +52,8 @@ func _ready() -> void:
 	l4_items_to_hide = level_4.get_children()
 
 	player_label.text = ""
+
+	press_button.play()
 
 
 func _process(_delta: float) -> void:
@@ -86,6 +90,9 @@ func set_sprite_outline_colour(sprite, colour):
 
 
 func update_level(new_level, visible_items, non_visible_items_array):
+	if level != new_level:
+		unlock.play()
+
 	level = new_level
 	for item in visible_items:
 		if is_instance_valid(item):
