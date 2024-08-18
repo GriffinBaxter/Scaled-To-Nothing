@@ -2,7 +2,7 @@ extends Area2D
 
 enum CornerPos { NONE, TOP_LEFT, TOP_RIGHT, BOTTOM_LEFT, BOTTOM_RIGHT, MIDDLE }
 
-const SCALE_SPEED = 0.01
+const SCALE_SPEED = 1.25
 const POSITION_OFFSET = 3.25
 const CORNER_SELECT_OFFSET = 12.0
 
@@ -68,7 +68,10 @@ func _draw() -> void:
 
 
 func _input(event: InputEvent) -> void:
-	if event is InputEventMouseMotion and mouse_entered_object:
+	if (
+		event is InputEventMouseMotion
+		and (mouse_entered_object or currently_scaling_or_positioning)
+	):
 		var scale_amount = SCALE_SPEED * global_scale.x
 		var global_mouse_position = get_global_mouse_position()
 
@@ -139,15 +142,18 @@ func _input(event: InputEvent) -> void:
 			current_scale_amount = 0
 
 
-func _process(_delta: float) -> void:
-	if Input.is_action_just_pressed("left_mouse"):
+func _process(delta: float) -> void:
+	if Input.is_action_just_pressed("left_mouse") and mouse_entered_object:
 		currently_scaling_or_positioning = true
 	elif Input.is_action_just_released("left_mouse"):
 		currently_scaling_or_positioning = false
 
-	if mouse_entered_object and Input.is_action_pressed("left_mouse"):
+	if (
+		Input.is_action_pressed("left_mouse")
+		and (mouse_entered_object or currently_scaling_or_positioning)
+	):
 		var global_mouse_position = get_global_mouse_position()
-		var to_scale = Vector2(current_scale_amount, current_scale_amount)
+		var to_scale = Vector2(current_scale_amount * delta, current_scale_amount * delta)
 		if selected_corner == CornerPos.MIDDLE:
 			position = global_mouse_position
 		elif scale + to_scale > original_scale * max_scale:
